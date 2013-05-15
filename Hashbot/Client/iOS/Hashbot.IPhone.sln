@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashbot.Logic", "..\Logic\Hashbot.Logic\Hashbot.Logic.csproj", "{E5A7A578-55BB-499B-BC99-5D906BE0189C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashbot.iPhone", "Hashbot.iPhone\Hashbot.iPhone.csproj", "{17E7D247-06D5-4FDE-8783-24456916ADF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Debug|iPhone.Build.0 = Debug|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Release|iPhone.ActiveCfg = Release|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Release|iPhone.Build.0 = Release|iPhone
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{17E7D247-06D5-4FDE-8783-24456916ADF8}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Release|iPhone.Build.0 = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ..\Logic\Hashbot.Logic\Hashbot.Logic.csproj
+	EndGlobalSection
+EndGlobal
