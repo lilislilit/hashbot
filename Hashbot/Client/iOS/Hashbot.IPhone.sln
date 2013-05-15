@@ -41,6 +41,6 @@ Global
 		{E5A7A578-55BB-499B-BC99-5D906BE0189C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ..\Logic\Hashbot.Logic\Hashbot.Logic.csproj
+		StartupItem = Hashbot.iPhone\Hashbot.iPhone.csproj
 	EndGlobalSection
 EndGlobal
