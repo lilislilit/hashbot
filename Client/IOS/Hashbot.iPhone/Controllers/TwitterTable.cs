@@ -21,10 +21,15 @@ namespace Hashbot.IPhone
 				// if there are no cells to reuse, create a new one
 				if (cell == null)
 					cell = new TwitterTableCell((NSString)cellIdentifier);
-
-			cell.UpdateCell(tableItems[indexPath.Row].TwitterUser.Name, tableItems[indexPath.Row].Text, UIImage.FromFile("ios/Main/avatar.png"));
+			var rowDate = tableItems[indexPath.Row].CreatedAt;
+			var dateLabel = (rowDate - DateTime.Now).Hours>24 ? rowDate.ToString(): String.Format("{0:G} часов",Math.Abs((rowDate - DateTime.Now).Hours)); 
+			cell.UpdateCell(tableItems[indexPath.Row].TwitterUser.Name, tableItems[indexPath.Row].Text, UIImage.FromFile("ios/Main/avatar.png"),dateLabel);
 			    return cell;
 			}
+		public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			return 70; 
+		}
 		}
 }
 

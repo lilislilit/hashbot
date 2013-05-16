@@ -9,6 +9,7 @@ namespace Hashbot.Logic
 		public string Source { get; set; }
 		public string Url {get; set;}
 		public User TwitterUser {get;set;}
+		public string MessageId {get;set;}
 	}
 
 	public class User 
