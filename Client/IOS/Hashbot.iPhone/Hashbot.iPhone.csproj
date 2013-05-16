@@ -92,11 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="Resources\ios\Icons\.DS_Store" />
-    <None Include="Resources\ios\Info\.DS_Store" />
-    <None Include="Resources\ios\Main\.DS_Store" />
-    <None Include="Resources\ios\Mockups\.DS_Store" />
-    <None Include="Resources\ios\Tweets\.DS_Store" />
+    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Icons\.DS_Store" />
+    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Info\.DS_Store" />
+    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Main\.DS_Store" />
+    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Mockups\.DS_Store" />
+    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Tweets\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -111,6 +111,7 @@
       <DependentUpon>InfoController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\TwitterTable.cs" />
+    <Compile Include="Controllers\TwitterTableCell.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

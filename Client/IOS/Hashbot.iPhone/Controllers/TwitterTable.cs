@@ -1,6 +1,7 @@
 using System;
 using Hashbot.Logic;
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
 namespace Hashbot.IPhone
 {
    public class TwitterTable : UITableViewSource {
@@ -16,14 +17,12 @@ namespace Hashbot.IPhone
 			}
 			public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 			{
-				UITableViewCell cell = tableView.DequeueReusableCell (cellIdentifier);
+				TwitterTableCell cell = tableView.DequeueReusableCell ((NSString)cellIdentifier) as TwitterTableCell;
 				// if there are no cells to reuse, create a new one
 				if (cell == null)
-					cell = new UITableViewCell (UITableViewCellStyle.Subtitle, cellIdentifier);
+					cell = new TwitterTableCell((NSString)cellIdentifier);
 
-			cell.TextLabel.Text = tableItems[indexPath.Row].TwitterUser.Name;
-			cell.DetailTextLabel.Text = tableItems[indexPath.Row].Text;
-			cell.ImageView.Image = UIImage.FromFile("ios/Main/avatar.png");
+			cell.UpdateCell(tableItems[indexPath.Row].TwitterUser.Name, tableItems[indexPath.Row].Text, UIImage.FromFile("ios/Main/avatar.png"));
 			    return cell;
 			}
 		}
