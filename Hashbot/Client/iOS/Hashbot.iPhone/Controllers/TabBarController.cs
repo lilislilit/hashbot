@@ -1,7 +1,7 @@
 using System;
 using MonoTouch.UIKit;
 
-namespace Hashbot.iPhone
+namespace Hashbot.IPhone
 {
 	public class TabBarController :UITabBarController{
 		
@@ -29,7 +29,7 @@ namespace Hashbot.iPhone
 				RightBarButtonHandler),true);
 
 			ViewControllers = tabs;
-			Title = SelectedViewController.Title;
+			NavigationItem.Title = SelectedViewController.Title;
 
 	}
 	

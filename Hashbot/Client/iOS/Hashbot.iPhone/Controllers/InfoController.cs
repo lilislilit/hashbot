@@ -5,7 +5,7 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace Hashbot.iPhone
+namespace Hashbot.IPhone
 {
 	public partial class InfoController : UIViewController
 	{

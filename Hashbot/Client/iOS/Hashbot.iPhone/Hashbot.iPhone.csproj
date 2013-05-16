@@ -8,9 +8,9 @@
     <ProjectGuid>{17E7D247-06D5-4FDE-8783-24456916ADF8}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Hashbot.iPhone</RootNamespace>
+    <RootNamespace>Hashbot.IPhone</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>HashbotiPhone</AssemblyName>
+    <AssemblyName>HashbotIPhone</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -110,6 +110,7 @@
     <Compile Include="Controllers\InfoController.designer.cs">
       <DependentUpon>InfoController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\TwitterTable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -171,5 +172,11 @@
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="Resources\ios\Icons\iTunesArtwork.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Logic\Hashbot.Logic\Hashbot.Logic.csproj">
+      <Project>{07F6C2E0-CD77-45BE-9700-5FF3FDB73014}</Project>
+      <Name>Hashbot.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

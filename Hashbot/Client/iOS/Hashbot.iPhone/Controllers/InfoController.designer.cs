@@ -6,7 +6,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace Hashbot.iPhone
+namespace Hashbot.IPhone
 {
 	[Register ("InfoController")]
 	partial class InfoController

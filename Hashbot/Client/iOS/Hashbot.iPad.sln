@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashbot.iPad", "Hashbot.iPad\Hashbot.iPad.csproj", "{E22057EA-8EFA-48DB-AF75-FAC193D7D037}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashbot.Logic", "Hashbot.Logic\Hashbot.Logic.csproj", "{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -13,6 +15,18 @@ Global
 		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Release|iPhone.Build.0 = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{52CC189B-A4A0-42D1-A1EB-BE9854EB2D7C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{E22057EA-8EFA-48DB-AF75-FAC193D7D037}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
 		{E22057EA-8EFA-48DB-AF75-FAC193D7D037}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
 		{E22057EA-8EFA-48DB-AF75-FAC193D7D037}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
