@@ -20,6 +20,15 @@ namespace Hashbot.IPhone
 		{
 			return tableItems.Length;
 		}
+		public void AddTweets(TwitterMessage[] items)
+		{
+			var temp = new TwitterMessage[tableItems.Length+items.Length];
+			tableItems.CopyTo(temp, 0);
+			items.CopyTo(temp, tableItems.Length);
+			tableItems = temp;
+
+		    
+		}
 
 		public override UITableViewCell GetCell(UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
