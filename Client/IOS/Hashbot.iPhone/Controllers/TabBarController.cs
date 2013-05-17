@@ -12,15 +12,20 @@ namespace Hashbot.IPhone
 
 			TwitterTab = new HashTagController();
 		    TwitterTab.Title = TwitterTab.HashTag = "Twitter";
+			TwitterTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_twitter.png");
 
 			AppleTab = new HashTagController();
 			AppleTab.Title = AppleTab.HashTag = "Apple";
+			AppleTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_apple.png");
 
 			DribbleTab = new HashTagController();
 			DribbleTab.Title = DribbleTab.HashTag = "Dribble";
+			DribbleTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_dribbble.png");
 
 			GitHubTab = new HashTagController();
 			GitHubTab.Title = GitHubTab.HashTag = "GitHub";
+			GitHubTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_github.png");
+
 		    var tabs = new UIViewController[] {
 				TwitterTab,DribbleTab, AppleTab, GitHubTab
 			};
