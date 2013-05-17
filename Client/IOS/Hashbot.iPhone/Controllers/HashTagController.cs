@@ -39,17 +39,28 @@ namespace Hashbot.IPhone
 			moreButton.SetTitleColor(UIColor.FromRGB(0,0,0),UIControlState.Normal);
 			moreButton.TouchUpInside += HandleTouchMoreButton;
 			_messages =  _twitter.MessagesByTag(HashTag);
-			_table.Source = new TwitterTable(_messages.ToArray());
+			var source = new TwitterTable(_messages.ToArray());
+			source.RowSelectedEvent+= HandleRowSelectedEvent;
+			_table.Source = source;
+
+
 			Add(_table);
 			Add(moreButton);
 			base.ViewDidLoad();
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
+
+		void HandleRowSelectedEvent (TwitterMessage obj)
+		{
+			NavigationController.PushViewController(new TweetController(obj),true);
+		}
 		private void HandleTouchMoreButton(object sender, EventArgs e)
 		{
 			_page++;
 			_messages.AddRange(_twitter.MessagesByTag(HashTag,_page));
-			_table.Source = new TwitterTable(_messages.ToArray());
+			var source = new TwitterTable(_messages.ToArray());
+			source.RowSelectedEvent+= HandleRowSelectedEvent;
+			_table.Source = source;
 
 		}
 	}

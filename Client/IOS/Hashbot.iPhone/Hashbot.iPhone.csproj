@@ -92,11 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Icons\.DS_Store" />
-    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Info\.DS_Store" />
-    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Main\.DS_Store" />
-    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Mockups\.DS_Store" />
-    <None Include="..\..\IOS\Hashbot.IPhone\Resources\ios\Tweets\.DS_Store" />
+    <None Include="Resources\ios\Icons\.DS_Store" />
+    <None Include="Resources\ios\Info\.DS_Store" />
+    <None Include="Resources\ios\Main\.DS_Store" />
+    <None Include="Resources\ios\Mockups\.DS_Store" />
+    <None Include="Resources\ios\Tweets\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -112,11 +112,16 @@
     </Compile>
     <Compile Include="Controllers\TwitterTable.cs" />
     <Compile Include="Controllers\TwitterTableCell.cs" />
+    <Compile Include="Controllers\TweetController.cs" />
+    <Compile Include="Controllers\TweetController.designer.cs">
+      <DependentUpon>TweetController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="Controllers\HashTagController.xib" />
     <InterfaceDefinition Include="Controllers\InfoController.xib" />
+    <InterfaceDefinition Include="Controllers\TweetController.xib" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ios\Icons\Icon-Small.png" />
