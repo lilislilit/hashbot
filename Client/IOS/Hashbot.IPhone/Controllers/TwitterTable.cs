@@ -35,8 +35,6 @@ namespace Hashbot.IPhone
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
-
-			var tweet =new TweetController (tableItems[indexPath.Row]);
 			RowSelectedEvent(tableItems[indexPath.Row]);
 			tableView.DeselectRow(indexPath, true); // normal iOS behaviour is to remove the blue highlight
 		}

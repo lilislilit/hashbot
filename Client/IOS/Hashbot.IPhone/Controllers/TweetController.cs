@@ -70,12 +70,19 @@ namespace Hashbot.IPhone
 			var sourceText = _tweet.Source.Substring(_tweet.Source.IndexOf("&gt") + 4);
 			sourceLabel.Text = "via " + sourceText.Substring(0, sourceText.Length - 10);
 
+			var urlLabel = new UILabel(new RectangleF(dateLabel.Bounds.Right+15, line.Frame.Bottom + 2,line.Bounds.Width-dateLabel.Bounds.Width, 25));
+			urlLabel.Text = _tweet.Url;
+			urlLabel.Font = UIFont.FromName("Helvetica", 15);
+			urlLabel.BackgroundColor = UIColor.Clear;
+			urlLabel.TextColor = UIColor.FromRGB(119, 119, 119);
+
 			Add(tweetLabel);
 			Add(userLabel);
 			Add(sourceLabel);
 			Add(line);
 			Add(dateLabel);
 			Add(avatar);
+			Add(urlLabel);
 		}
 	}
 }
