@@ -6,6 +6,8 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Hashbot.IPhone
 {
@@ -18,6 +20,7 @@ namespace Hashbot.IPhone
 		private UITableView _table;
 		private TwitterTable _source;
 		private int _page;
+		private UIButton _moreButton;
 		private TweetController _tweetController;
 
 		public HashTagController() : base ("HashTagController", null)
@@ -37,11 +40,11 @@ namespace Hashbot.IPhone
 		{
 			base.ViewDidLoad();
 			_table = new UITableView(new RectangleF(0,0,View.Bounds.Width,View.Bounds.Height-60)); // defaults to Plain style
-			var moreButton = new UIButton(UIButtonType.RoundedRect);
-			moreButton.Frame = new RectangleF(60, View.Bounds.Height - 40, 130, 40);
-			moreButton.SetTitle("Показать еще", UIControlState.Normal);
-			moreButton.SetTitleColor(UIColor.FromRGB(0,0,0), UIControlState.Normal);
-			moreButton.TouchUpInside += HandleTouchMoreButton;
+			_moreButton = new UIButton(UIButtonType.RoundedRect);
+			_moreButton.Frame = new RectangleF(60, View.Bounds.Height - 40, 130, 40);
+			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
+			_moreButton.SetTitleColor(UIColor.FromRGB(0,0,0), UIControlState.Normal);
+			_moreButton.TouchUpInside += HandleTouchMoreButton;
 			try
 			{
 				_messages = _twitter.MessagesByTag(HashTag);
@@ -49,7 +52,7 @@ namespace Hashbot.IPhone
 				_source.RowSelectedEvent += HandleRowSelectedEvent;
 				_table.Source = _source;
 				Add(_table);
-				Add(moreButton);
+				Add(_moreButton);
 				_page = 1;
 			} catch (WebException ex)
 			{
@@ -64,20 +67,30 @@ namespace Hashbot.IPhone
 			/*if (_tweetController == null)
 				_tweetController = new TweetController(tweet);
 			_tweetController.SetTweet(tweet); Не работает,спросить у Макса, как переиницилизировать элементы вьюхи*/
-			NavigationController.PushViewController(new TweetController(tweet),true);
+			NavigationController.PushViewController(new TweetController(tweet), true);
 		}
 
 		private void HandleTouchMoreButton(object sender, EventArgs e)
 		{
-
-			_page++;
 			TwitterMessage[] newMessages;
 			try
 			{
-				newMessages = _twitter.MessagesByTag(HashTag, _page);
-				_source.AddTweets(newMessages);
-				_table.Source = _source;
-				_table.ReloadData();
+				_moreButton.SetTitle("Loading", UIControlState.Normal);
+
+				Task.Factory.StartNew(
+					() => {
+					_page++;
+					newMessages = _twitter.MessagesByTag(HashTag, _page);
+					_source.AddTweets(newMessages);
+
+					Thread.Sleep(1000);//Грузяться быстро слишком,задержка для тестирования
+				}).ContinueWith(
+					t => {
+					_table.Source = _source;
+					_table.ReloadData();
+					_moreButton.SetTitle("Показать еще", _moreButton.State);
+				}, TaskScheduler.FromCurrentSynchronizationContext());
+
 			} catch (WebException ex)
 			{
 				new UIAlertView("Ошибка", "Ошибка соединения с твиттером", null, "Ок").Show();
