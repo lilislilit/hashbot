@@ -25,34 +25,57 @@ namespace Hashbot.IPhone
 	
 		public override void ViewDidLoad()
 		{
-			var imageView = new UIImageView (UIImage.FromFile("ios/Tweets/bg.png"));
-			var line = new UIImageView(UIImage.FromFile("ios/Tweets/line.png"));
+
+			base.ViewDidLoad();
+			InitLayout();
+			// Perform any additional setup after loading the view, typically from a nib.
+		}
+
+		void InitLayout()
+		{
+			var imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
 			View.AddSubview(imageView);
 			View.SendSubviewToBack(imageView);
-			base.ViewDidLoad();
-			var tweetLabel = new UILabel(new RectangleF(View.Bounds.X+40, View.Bounds.Y+80, View.Bounds.Width-60, View.Bounds.Height/3));
-			var userLabel = new UILabel(new RectangleF(View.Bounds.X+80, View.Bounds.Y+20, View.Bounds.Width, 25));
-			var sourceLabel = new UILabel(new RectangleF(View.Bounds.X+80, View.Bounds.Y+40, View.Bounds.Width, 25));
-			line.Frame = new RectangleF(View.Bounds.X+40, tweetLabel.Frame.Bottom+2, View.Bounds.Width - 60, 1);
-			var dateLabel = new UILabel(new RectangleF(View.Bounds.X+80,line.Frame.Bottom+2, 50, 25));
-			imageView.BackgroundColor = UIColor.Clear;
+
+			var avatar = new UIImageView(UIImage.FromFile("ios/Main/avatar.png"));
+			avatar.Frame = new RectangleF(View.Bounds.X + 10, View.Bounds.X + 20, 64, 64);
+
+			var tweetLabel = new UILabel(new RectangleF(View.Bounds.X + 20, View.Bounds.Y + 80, View.Bounds.Width - 60, View.Bounds.Height / 3));
 			tweetLabel.BackgroundColor = UIColor.Clear;
 			tweetLabel.Text = _tweet.Text;
+			tweetLabel.Font = UIFont.FromName("Helvetica", 18);
+			tweetLabel.TextColor = UIColor.FromRGB(65, 65, 65);
 			tweetLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			tweetLabel.Lines = 0;
+
+			var userLabel = new UILabel(new RectangleF(View.Bounds.X + 80, View.Bounds.Y + 20, View.Bounds.Width, 25));
 			userLabel.BackgroundColor = UIColor.Clear;
-			dateLabel.BackgroundColor = UIColor.Clear;
 			userLabel.Text = _tweet.TwitterUser.Name;
-			sourceLabel.BackgroundColor = UIColor.Clear;
-			var sourceText = _tweet.Source.Substring(_tweet.Source.IndexOf("&gt")+4);
-			sourceLabel.Text = "via " + sourceText.Substring(0, sourceText.Length - 10);;
+			userLabel.Font = UIFont.FromName("Helvetica", 25);
+			userLabel.TextColor =  UIColor.FromRGB(68, 100, 43);
+
+			var line = new UIImageView(UIImage.FromFile("ios/Tweets/line.png"));
+			line.Frame = new RectangleF(View.Bounds.X + 20, tweetLabel.Frame.Bottom + 2, View.Bounds.Width - 60, 1);
+
+			var dateLabel = new UILabel(new RectangleF(View.Bounds.X + 20, line.Frame.Bottom + 2,line.Bounds.Width/3, 25));
 			dateLabel.Text = _tweet.CreatedAt.ToString("dd:mm:yyyy");
+			dateLabel.Font = UIFont.FromName("Helvetica", 15);
+			dateLabel.BackgroundColor = UIColor.Clear;
+			dateLabel.TextColor = UIColor.FromRGB(119, 119, 119);
+
+			var sourceLabel = new UILabel(new RectangleF(View.Bounds.X + 80, View.Bounds.Y + 60, View.Bounds.Width, 25));
+			sourceLabel.BackgroundColor = UIColor.Clear;
+			sourceLabel.Font = UIFont.FromName("Helvetica", 18);
+			sourceLabel.TextColor = UIColor.FromRGB(65, 65, 65);
+			var sourceText = _tweet.Source.Substring(_tweet.Source.IndexOf("&gt") + 4);
+			sourceLabel.Text = "via " + sourceText.Substring(0, sourceText.Length - 10);
+
 			Add(tweetLabel);
 			Add(userLabel);
 			Add(sourceLabel);
 			Add(line);
 			Add(dateLabel);
-			// Perform any additional setup after loading the view, typically from a nib.
+			Add(avatar);
 		}
 	}
 }
