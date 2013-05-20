@@ -40,62 +40,51 @@ namespace Hashbot.Logic
 
 	public class TwitterResponse
 	{
-		public double completed_in { get; set; }
+		public double CompletedIn { get; set; }
 
-		public long max_id { get; set; }
+		public long MaxId { get; set; }
 
-		public string max_id_str { get; set; }
+		public string MaxIdStr { get; set; }
 
-		public string next_page { get; set; }
+		public string NextPage { get; set; }
 
-		public int page { get; set; }
+		public int Page { get; set; }
 
-		public string query { get; set; }
+		public string Query { get; set; }
 
-		public string refresh_url { get; set; }
+		public string RefreshUrl { get; set; }
 
-		public List<TwitterResult> results { get; set; }
+		public List<TwitterResult> Results { get; set; }
 	}
 
 	public class TwitterResult
 	{
-		public string created_at { get; set; }
+		public string CreatedAt { get; set; }
 
-		public TwitterEntities entities { get; set; }
+		public TwitterEntities Entities { get; set; }
 
-		public string from_user { get; set; }
+		public string FromUser { get; set; }
 
-		public long from_user_id { get; set; }
+		public long FromUserId { get; set; }
 
-		public string from_user_id_string { get; set; }
+		public long Id { get; set; }
 
-		public string geo { get; set; }
+		public string ProfileImageUrl { get; set; }
 
-		public long id { get; set; }
+		public string Source { get; set; }
 
-		public string id_str { get; set; }
+		public string Text { get; set; }
 
-		public string iso_language_code { get; set; }
-
-		public string profile_image_url { get; set; }
-
-		public string source { get; set; }
-
-		public string text { get; set; }
-
-		public long to_user_id { get; set; }
-
-		public string to_user_id_str { get; set; }
 	}
 
 	public class TwitterEntities
 	{
-		public List<TwitterUrls> urls { get; set; }
+		public List<TwitterUrls> Urls { get; set; }
 	}
 
 	public class TwitterUrls
 	{
-		public string display_url { get; set; }
+		public string DisplayUrl { get; set; }
 	}
 }
 

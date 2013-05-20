@@ -25,15 +25,13 @@ namespace Hashbot.Logic
 			client.BaseUrl = _baseUrl;
 
 			request.RootElement = "TwitterResponse";
-			request.AddParameter("q", "%23" + hashtag);
+			request.AddParameter("q", "#" + hashtag);
 			request.AddParameter("include_entities", "true");
 			request.AddParameter("rpp", "5");
 			request.AddParameter("page", page);
 
-			var asyncHandle = client.ExecuteAsync<TwitterResponse>(request, response => {
-				HandleResponse(response);
+			var asyncHandle = client.ExecuteAsync<TwitterResponse>(request, HandleResponse);
 
-			});
 		}
 
 		void HandleResponse(IRestResponse<TwitterResponse> response)
@@ -44,7 +42,7 @@ namespace Hashbot.Logic
 			} else
 			{
 				var finalResults = new List<TwitterMessage>();
-				foreach (var tweet in response.Data.results)
+				foreach (var tweet in response.Data.Results)
 				{
 					finalResults.Add(ParseItem(tweet));
 
@@ -53,20 +51,20 @@ namespace Hashbot.Logic
 			}
 		}
 
-		private TwitterMessage ParseItem(TwitterResult raw_response)
+		private TwitterMessage ParseItem(TwitterResult rawTweet)
 		{
 			using (var webClient = new WebClient())
 			{
-				var bytes = webClient.DownloadData(raw_response.profile_image_url);
-				string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-				string localFilename = raw_response.id + ".png";
-				string localPath = Path.Combine(documentsPath, localFilename);
+				var bytes = webClient.DownloadData(rawTweet.ProfileImageUrl);
+				var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+				var localFilename = rawTweet.Id + ".png";
+				var localPath = Path.Combine(documentsPath, localFilename);
 				File.WriteAllBytes(localPath, bytes);
 			
-				var url = raw_response.entities.urls.Count != 0 ? raw_response.entities.urls.First().display_url : "";
-				var message = new TwitterMessage() {MessageId = raw_response.id.ToString(), Text = raw_response.text,
-					Url = url, CreatedAt = DateTime.Parse(raw_response.created_at), 
-					Source = raw_response.source, TwitterUser = new User(){Name = raw_response.from_user, ImageUri = localPath }
+				var url = rawTweet.Entities.Urls.Count != 0 ? rawTweet.Entities.Urls.First().DisplayUrl : "";
+				var message = new TwitterMessage() {MessageId = rawTweet.Id.ToString(), Text = rawTweet.Text,
+					Url = url, CreatedAt = DateTime.Parse(rawTweet.CreatedAt), 
+					Source = rawTweet.Source, TwitterUser = new User(){Name = rawTweet.FromUser, ImageUri = localPath }
 				};
 				return message;
 			}
