@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Json;
 using System.Linq;
+using System.IO;
 
 namespace Hashbot.Logic
 {
@@ -31,8 +32,17 @@ namespace Hashbot.Logic
 						Source=jtemp["source"],
 						Url = ((JsonArray)((JsonObject)jtemp["entities"])["urls"]).FirstOrDefault() == null ? "" :
 						((JsonArray)((JsonObject)jtemp["entities"])["urls"]).FirstOrDefault()["url"].ToString(),
-						TwitterUser=new User() { Name=jtemp["from_user"] }
+						TwitterUser=new User() { Name=jtemp["from_user"], ImageUri = jtemp["profile_image_url"] }
 					});
+					foreach(var tweet in finalresults)
+					{
+						var bytes = webClient.DownloadData(tweet.TwitterUser.ImageUri);
+						string documentsPath =Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+						string localFilename = tweet.MessageId +".png";
+						string localPath = Path.Combine (documentsPath, localFilename);
+						File.WriteAllBytes (localPath, bytes); // writes to local storage
+						tweet.TwitterUser.ImageUri = localPath;
+					}
 					return finalresults.ToArray();
 				}
 

@@ -49,7 +49,7 @@ namespace Hashbot.IPhone
 			View.AddSubview(_imageView);
 			View.SendSubviewToBack(_imageView);
 
-			_avatar = new UIImageView(UIImage.FromFile("ios/Main/avatar.png"));
+			_avatar = new UIImageView(UIImage.FromFile(Helpers.FileById(_tweet.MessageId)));
 			_avatar.Frame = new RectangleF(View.Bounds.X + 10, View.Bounds.X + 20, 64, 64);
 
 			_tweetLabel = new UILabel(new RectangleF(View.Bounds.X + 20, View.Bounds.Y + 80, View.Bounds.Width - 60, View.Bounds.Height / 3));

@@ -116,6 +116,7 @@
     <Compile Include="Controllers\TweetController.designer.cs">
       <DependentUpon>TweetController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\Helpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -3,6 +3,7 @@ using Hashbot.Logic;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using System.Collections.Generic;
+using System.IO;
 namespace Hashbot.IPhone
 {
 	public class TwitterTable : UITableViewSource
@@ -37,8 +38,9 @@ namespace Hashbot.IPhone
 			if (cell == null)
 				cell = new TwitterTableCell((NSString)cellIdentifier);
 			var rowDate = tableItems[indexPath.Row].CreatedAt;
-			var dateLabel = (rowDate - DateTime.Now).Hours > 24 ? rowDate.ToString() : String.Format("{0:G} часов", Math.Abs((rowDate - DateTime.Now).Hours)); 
-			cell.UpdateCell(tableItems[indexPath.Row].TwitterUser.Name, tableItems[indexPath.Row].Text, UIImage.FromFile("ios/Main/avatar.png"), dateLabel);
+			var dateLabel = (rowDate - DateTime.Now).Hours > 24 ? rowDate.ToString() : String.Format("{0:G} часов", Math.Abs((rowDate - DateTime.Now).Hours));
+			var localPath = Helpers.FileById(tableItems[indexPath.Row].MessageId);
+			cell.UpdateCell(tableItems[indexPath.Row].TwitterUser.Name, tableItems[indexPath.Row].Text, UIImage.FromFile(localPath), dateLabel);
 			return cell;
 		}
 

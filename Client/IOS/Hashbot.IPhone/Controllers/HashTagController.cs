@@ -64,6 +64,7 @@ namespace Hashbot.IPhone
 
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
+	
 
 		void HandleRowSelectedEvent(TwitterMessage tweet)
 		{
