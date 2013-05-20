@@ -45,7 +45,7 @@ namespace Hashbot.IPhone
 			_table = new UITableView(new RectangleF(0,0,View.Bounds.Width,View.Bounds.Height-60)); 
 
 			_moreButton = new UIButton(UIButtonType.RoundedRect);
-			_moreButton.Frame = new RectangleF(60, View.Bounds.Height - 40, 130, 40);
+			_moreButton.Frame = new RectangleF(View.Center.X-65,_table.Frame.Height+30, 130, 40);
 			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
 			_moreButton.SetTitleColor(UIColor.FromRGB(0,0,0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
