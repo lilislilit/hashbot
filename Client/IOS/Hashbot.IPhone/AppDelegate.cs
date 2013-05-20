@@ -27,10 +27,8 @@ namespace Hashbot.IPhone
 		{
 			// create a new window instance based on the screen size
 			    window = new UIWindow (UIScreen.MainScreen.Bounds);
-			    var rootNavigationController = new UINavigationController(); 
 				TabBarController tabController = new TabBarController();
-			    rootNavigationController.PushViewController(tabController, false); 
-			    window.RootViewController = rootNavigationController; 
+				window.RootViewController = tabController; 
 			    window.MakeKeyAndVisible();
 				return true;
 

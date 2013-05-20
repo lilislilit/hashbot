@@ -22,10 +22,13 @@ namespace Hashbot.IPhone
 		private int _page;
 		private UIButton _moreButton;
 		private TweetController _tweetController;
+		private InfoController info;
 
 		public HashTagController() : base ("HashTagController", null)
 		{
 			_twitter = new TwitterClient();
+			var infoButton = new UIBarButtonItem("Инфо", UIBarButtonItemStyle.Plain, RightBarButtonHandler);
+			NavigationItem.SetRightBarButtonItem(infoButton, false);
 		}
 
 		public override void DidReceiveMemoryWarning()
@@ -97,6 +100,12 @@ namespace Hashbot.IPhone
 			}
 
 
+		}
+		private void RightBarButtonHandler(object sender, EventArgs args)
+		{
+			if (info == null)
+				info = new InfoController();
+			NavigationController.PushViewController(info, true);
 		}
 	}
 }
