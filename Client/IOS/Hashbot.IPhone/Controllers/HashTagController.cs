@@ -15,19 +15,18 @@ namespace Hashbot.IPhone
 	{
 		public string HashTag { get; set; }
 
-		private TwitterMessage[] _messages;
 		private TwitterClient _twitter;
 		private UITableView _table;
-		private TwitterTable _source;
+		private TwitterSource _source;
 		private int _page;
 		private UIButton _moreButton;
 		private TweetController _tweetController;
-		private InfoController info;
+		private InfoController _info;
 
 		public HashTagController() : base ("HashTagController", null)
 		{
 			_twitter = new TwitterClient();
-			var infoButton = new UIBarButtonItem("Инфо", UIBarButtonItemStyle.Plain, RightBarButtonHandler);
+			var infoButton = new UIBarButtonItem("Инфо", UIBarButtonItemStyle.Plain, HandleRightBarButton);
 			NavigationItem.SetRightBarButtonItem(infoButton, false);
 		}
 
@@ -73,7 +72,7 @@ namespace Hashbot.IPhone
 			{
 				if (_source == null)
 				{
-					_source = new TwitterTable(tweets);
+					_source = new TwitterSource(tweets);
 					_source.RowSelectedEvent += HandleRowSelectedEvent;
 				} else
 				{
@@ -111,14 +110,14 @@ namespace Hashbot.IPhone
 
 		}
 
-		private void RightBarButtonHandler(object sender, EventArgs args)
+		private void HandleRightBarButton(object sender, EventArgs args)
 		{
-			if (info == null)
-				info = new InfoController();
+			if (_info == null)
+				_info = new InfoController();
 
 			NavigationController.SetNavigationBarHidden(true, true);
 
-			NavigationController.PushViewController(info, true);
+			NavigationController.PushViewController(_info, true);
 		}
 	}
 }

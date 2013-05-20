@@ -30,10 +30,10 @@ namespace Hashbot.Logic
 			request.AddParameter("rpp", "5");
 			request.AddParameter("page", page);
 
-		var asyncHandle = client.ExecuteAsync<TwitterResponse>(request, response => {
-			HandleResponse(response);
+			var asyncHandle = client.ExecuteAsync<TwitterResponse>(request, response => {
+				HandleResponse(response);
 
-		});
+			});
 		}
 
 		void HandleResponse(IRestResponse<TwitterResponse> response)
@@ -41,8 +41,7 @@ namespace Hashbot.Logic
 			if (response.ErrorException != null)
 			{
 				MessagesLoaded(response.ErrorException, null);
-			}
-			else
+			} else
 			{
 				var finalResults = new List<TwitterMessage>();
 				foreach (var tweet in response.Data.results)
@@ -72,8 +71,6 @@ namespace Hashbot.Logic
 				return message;
 			}
 		}
-
-
 	}
 }
 

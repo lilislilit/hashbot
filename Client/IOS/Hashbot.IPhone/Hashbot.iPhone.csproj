@@ -110,13 +110,13 @@
     <Compile Include="Controllers\InfoController.designer.cs">
       <DependentUpon>InfoController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\TwitterTable.cs" />
     <Compile Include="Controllers\TwitterTableCell.cs" />
     <Compile Include="Controllers\TweetController.cs" />
     <Compile Include="Controllers\TweetController.designer.cs">
       <DependentUpon>TweetController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Helpers.cs" />
+    <Compile Include="Controllers\TwitterSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
