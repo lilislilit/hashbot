@@ -26,11 +26,10 @@ namespace Hashbot.IPhone
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			// create a new window instance based on the screen size
-			    window = new UIWindow (UIScreen.MainScreen.Bounds);
-				TabBarController tabController = new TabBarController();
-				window.RootViewController = tabController; 
-			    window.MakeKeyAndVisible();
-				return true;
+		    window = new UIWindow (UIScreen.MainScreen.Bounds);
+			window.RootViewController = new TabBarController(); 
+		    window.MakeKeyAndVisible();
+			return true;
 
 		}
 	}

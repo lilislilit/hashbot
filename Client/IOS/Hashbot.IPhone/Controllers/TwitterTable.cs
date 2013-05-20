@@ -33,14 +33,10 @@ namespace Hashbot.IPhone
 
 		public override UITableViewCell GetCell(UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			TwitterTableCell cell = tableView.DequeueReusableCell((NSString)cellIdentifier) as TwitterTableCell;
+			var cell = tableView.DequeueReusableCell(TwitterTableCell.CellId) as TwitterTableCell;
 			// if there are no cells to reuse, create a new one
-			if (cell == null)
-				cell = new TwitterTableCell((NSString)cellIdentifier);
-			var rowDate = tableItems[indexPath.Row].CreatedAt;
-			var dateLabel = (rowDate - DateTime.Now).Hours > 24 ? rowDate.ToString() : String.Format("{0:G} часов", Math.Abs((rowDate - DateTime.Now).Hours));
-			var localPath = Helpers.FileById(tableItems[indexPath.Row].MessageId);
-			cell.UpdateCell(tableItems[indexPath.Row].TwitterUser.Name, tableItems[indexPath.Row].Text, UIImage.FromFile(localPath), dateLabel);
+			cell = cell ?? new TwitterTableCell();
+			cell.InitWith(tableItems[indexPath.Row]);
 			return cell;
 		}
 

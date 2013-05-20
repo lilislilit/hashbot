@@ -176,6 +176,7 @@
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\info.txt" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="Resources\ios\Icons\iTunesArtwork.png" />

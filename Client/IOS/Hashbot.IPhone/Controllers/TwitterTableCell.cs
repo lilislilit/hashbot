@@ -2,13 +2,18 @@ using System;
 using System.Drawing;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using Hashbot.Logic;
 
 namespace Hashbot.IPhone
 {
-	public class TwitterTableCell : UITableViewCell  {
+	public class TwitterTableCell : UITableViewCell  
+	{
+
+		public const string CellId = "TwitterTableCell";
+
 			UILabel headingLabel, subheadingLabel,dateLabel;
 			UIImageView imageView;
-		public TwitterTableCell (NSString cellId) : base (UITableViewCellStyle.Default, cellId)
+		public TwitterTableCell () : base (UITableViewCellStyle.Default, CellId)
 			{
 				SelectionStyle = UITableViewCellSelectionStyle.Gray;
 				ContentView.BackgroundColor = UIColor.FromRGB (235, 235, 235);
@@ -35,6 +40,7 @@ namespace Hashbot.IPhone
 				ContentView.Add (imageView);
 			    ContentView.Add(dateLabel);
 			}
+
 			public void UpdateCell (string caption, string subtitle, UIImage image,string Date)
 			{
 				imageView.Image = image;
@@ -42,6 +48,7 @@ namespace Hashbot.IPhone
 				subheadingLabel.Text = subtitle;
 			    dateLabel.Text = Date;
 			}
+
 			public override void LayoutSubviews ()
 			{
 				base.LayoutSubviews ();
@@ -51,6 +58,12 @@ namespace Hashbot.IPhone
 			    dateLabel.Frame = new RectangleF(ContentView.Bounds.Width-100,10, 100, 15);
 			}
 
+		public void InitWith(TwitterMessage twitt)
+		{
+			var rowDate = twitt.CreatedAt;
+			var dateLabel = (rowDate - DateTime.Now).Hours > 24 ? rowDate.ToString() : String.Format("{0:G} часов", Math.Abs((rowDate - DateTime.Now).Hours));
+			UpdateCell(twitt.TwitterUser.Name,twitt.Text, UIImage.FromFile(twitt.TwitterUser.ImageUri), dateLabel);
+		}
 	}
 
 }

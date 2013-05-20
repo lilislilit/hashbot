@@ -21,11 +21,17 @@ namespace Hashbot.IPhone
 		public TweetController(TwitterMessage tweet) : base ("TweetController", null)
 		{
 			_tweet = tweet;
+			InitLayout();
+
 		}
-		public void SetTweet(TwitterMessage tweet)
+		public void InitWith(TwitterMessage tweet)
 		{
 			_tweet = tweet;
-			InitLayout();
+			_tweetLabel.Text = tweet.Text;
+			_userLabel.Text = tweet.TwitterUser.Name;
+			_sourceLabel.Text = tweet.Source;
+			_urlLabel.Text = tweet.Url;
+			_avatar.Image = UIImage.FromFile(_tweet.TwitterUser.ImageUri);
 		}
 		public override void DidReceiveMemoryWarning()
 		{
@@ -39,7 +45,7 @@ namespace Hashbot.IPhone
 		{
 
 			base.ViewDidLoad();
-			InitLayout();
+
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
@@ -79,8 +85,7 @@ namespace Hashbot.IPhone
 			_sourceLabel.BackgroundColor = UIColor.Clear;
 			_sourceLabel.Font = UIFont.FromName("Helvetica", 18);
 			_sourceLabel.TextColor = UIColor.FromRGB(65, 65, 65);
-			var sourceText = _tweet.Source.Substring(_tweet.Source.IndexOf("&gt") + 4);
-			_sourceLabel.Text = "via " + sourceText.Substring(0, sourceText.Length - 10);
+			_sourceLabel.Text = _tweet.Source;
 
 			_urlLabel = new UILabel(new RectangleF(_dateLabel.Bounds.Right+15, _line.Frame.Bottom + 2,_line.Bounds.Width-_dateLabel.Bounds.Width, 25));
 			_urlLabel.Text = _tweet.Url;

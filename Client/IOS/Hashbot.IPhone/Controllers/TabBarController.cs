@@ -1,5 +1,6 @@
 using System;
 using MonoTouch.UIKit;
+using System.Drawing;
 
 namespace Hashbot.IPhone
 {
@@ -7,7 +8,7 @@ namespace Hashbot.IPhone
 	{
 		
 		HashTagController TwitterTab, AppleTab, DribbleTab, GitHubTab;
-		UINavigationController NCTwitter,NCApple,NCDribble, NCGithub;
+		UINavigationController NCTwitter,NCApple,NCDribble, NCGithub; // _twitterNavControlle
 
 
 		public TabBarController()
@@ -39,14 +40,16 @@ namespace Hashbot.IPhone
 			var tabs = new UIViewController[] {
 			  NCTwitter,NCApple,NCDribble,NCGithub
 			};
-
+			HidesBottomBarWhenPushed = true;
 			ViewControllers = tabs;
 			NavigationItem.Title = SelectedViewController.Title;
 
 		}
 
+		}
+
 
 	}
-}
+
 
 

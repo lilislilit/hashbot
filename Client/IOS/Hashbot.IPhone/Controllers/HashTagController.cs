@@ -42,70 +42,82 @@ namespace Hashbot.IPhone
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			_table = new UITableView(new RectangleF(0,0,View.Bounds.Width,View.Bounds.Height-60)); // defaults to Plain style
+
+			_table = new UITableView(new RectangleF(0,0,View.Bounds.Width,View.Bounds.Height-60)); 
+
 			_moreButton = new UIButton(UIButtonType.RoundedRect);
 			_moreButton.Frame = new RectangleF(60, View.Bounds.Height - 40, 130, 40);
 			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
 			_moreButton.SetTitleColor(UIColor.FromRGB(0,0,0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
-			try
-			{
-				_messages = _twitter.MessagesByTag(HashTag);
-				_source = new TwitterTable(_messages);
-				_source.RowSelectedEvent += HandleRowSelectedEvent;
-				_table.Source = _source;
-				Add(_table);
-				Add(_moreButton);
-				_page = 1;
-			} catch (WebException ex)
-			{
-				new UIAlertView("Ошибка", "Ошибка соединения с твиттером", null, "Ок").Show();
-			}
+			_moreButton.SetTitle("Loading", UIControlState.Normal);
+
+			_twitter.MessagesByTag(HashTag);
+			_twitter.MessagesLoaded += HandleMessagesLoaded;
+
+			Add(_table);
+			Add(_moreButton);
+
+			_page = 1;
+
 
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
-	
+
+		void HandleMessagesLoaded(Exception error, TwitterMessage[] tweets)
+		{
+			if (error != null)
+			{
+				new UIAlertView("Ошибка", "Ошибка соединения с твиттером", null, "Ок").Show();
+			} else
+			{
+				if (_source == null)
+				{
+					_source = new TwitterTable(tweets);
+					_source.RowSelectedEvent += HandleRowSelectedEvent;
+				} else
+				{
+					_source.AddTweets(tweets);
+				}
+
+				InvokeOnMainThread(UIUpdate);
+
+
+			}
+		}
+
+		private void UIUpdate()
+		{
+			_table.Source = _source;
+			_table.ReloadData();
+			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
+
+		}
 
 		void HandleRowSelectedEvent(TwitterMessage tweet)
 		{
-			/*if (_tweetController == null)
+			if (_tweetController == null)
 				_tweetController = new TweetController(tweet);
-			_tweetController.SetTweet(tweet); Не работает,спросить у Макса, как переиницилизировать элементы вьюхи*/
-			NavigationController.PushViewController(new TweetController(tweet), true);
+			_tweetController.InitWith(tweet); 
+			NavigationController.PushViewController(_tweetController, true);
 		}
 
 		private void HandleTouchMoreButton(object sender, EventArgs e)
 		{
-			TwitterMessage[] newMessages;
-			try
-			{
-				_moreButton.SetTitle("Loading", UIControlState.Normal);
 
-				Task.Factory.StartNew(
-					() => {
-					_page++;
-					newMessages = _twitter.MessagesByTag(HashTag, _page);
-					_source.AddTweets(newMessages);
-
-					Thread.Sleep(1000);//Грузяться быстро слишком,задержка для тестирования
-				}).ContinueWith(
-					t => {
-					_table.Source = _source;
-					_table.ReloadData();
-					_moreButton.SetTitle("Показать еще", _moreButton.State);
-				}, TaskScheduler.FromCurrentSynchronizationContext());
-
-			} catch (WebException ex)
-			{
-				new UIAlertView("Ошибка", "Ошибка соединения с твиттером", null, "Ок").Show();
-			}
-
+			_moreButton.SetTitle("Loading", UIControlState.Normal);
+			_page++;
+			_twitter.MessagesByTag(HashTag, _page);
 
 		}
+
 		private void RightBarButtonHandler(object sender, EventArgs args)
 		{
 			if (info == null)
 				info = new InfoController();
+
+			NavigationController.SetNavigationBarHidden(true, true);
+
 			NavigationController.PushViewController(info, true);
 		}
 	}
