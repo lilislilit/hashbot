@@ -92,11 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="Resources\ios\Icons\.DS_Store" />
-    <None Include="Resources\ios\Info\.DS_Store" />
-    <None Include="Resources\ios\Main\.DS_Store" />
-    <None Include="Resources\ios\Mockups\.DS_Store" />
-    <None Include="Resources\ios\Tweets\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
