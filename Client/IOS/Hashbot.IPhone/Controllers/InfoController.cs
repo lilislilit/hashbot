@@ -23,10 +23,7 @@ namespace Hashbot.IPhone
 		{
 			_phoneNumber = "78123093879";
 			_email = "hello24@touchin.ru";
-			_mailController = new MFMailComposeViewController ();
-			_mailController.SetToRecipients (new string[]{_email});
-			_mailController.SetSubject ("Заказать приложение");
-			_mailController.SetMessageBody ("Текст Заказа", false);
+
 		}
 		
 		public override void DidReceiveMemoryWarning()
@@ -48,31 +45,40 @@ namespace Hashbot.IPhone
 		{
 
 			_logo = new UIImageView(UIImage.FromFile("ios/Info/logo.png"));
-			_logo.Frame = new RectangleF(View.Bounds.Width/2-_logo.Frame.Width/2, 20, 179, 138);
+			_logo.Frame = new RectangleF(View.Bounds.Width/2-_logo.Frame.Width/2, 20, _logo.Image.Size.Width, _logo.Image.Size.Height);
 
-			_infoTextLabel = new UILabel(new RectangleF(View.Bounds.X + 20, _logo.Bounds.Bottom, View.Bounds.Width - 20, View.Bounds.Height -_logo.Bounds.Height));
+			_infoTextLabel = new UILabel(new RectangleF(View.Bounds.X + 20, _logo.Frame.Bottom, View.Frame.Width - 20, View.Frame.Height -_logo.Frame.Height));
 			_infoTextLabel.BackgroundColor = UIColor.Clear;
 			_infoTextLabel.Font = UIFont.FromName("Helvetica", 14);
 			_infoTextLabel.TextColor = UIColor.FromRGB(65, 65, 65);
 			_infoTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			_infoTextLabel.Lines = 0;
 
+			var backgroundImage = UIImage.FromFile("ios/Info/button.png");
+			var backgroundStretch = backgroundImage.StretchableImage(11, 0);
+			var backgroundPressed = UIImage.FromFile("ios/Info/button_pressed.png");
+			var backgroundPressedStretched = backgroundPressed.StretchableImage(11, 0);
+
+			var imagePhoneButton = UIImage.FromFile("ios/Info/icon_phone.png");
+
 			_phoneButton = new UIButton(UIButtonType.Custom);
-			_phoneButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button_pressed.png"), UIControlState.Selected);
-			_phoneButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button.png"), UIControlState.Normal);
+			_phoneButton.SetBackgroundImage(backgroundPressedStretched, UIControlState.Selected);
+			_phoneButton.SetBackgroundImage(backgroundStretch, UIControlState.Normal);
 			_phoneButton.SetImage(UIImage.FromFile("ios/Info/icon_phone.png"), UIControlState.Normal);
-			_phoneButton.Frame = new RectangleF(View.Bounds.X + 20, _infoTextLabel.Frame.Bottom, 130, 40);
+			_phoneButton.ImageEdgeInsets=new UIEdgeInsets(0,0,9,0);
+			_phoneButton.Frame = new RectangleF(View.Bounds.X + 20, _infoTextLabel.Frame.Bottom, 120, 40);
 			_phoneButton.TouchUpInside += HandleTouchPhoneButton;
 		
 			_mailButton = new UIButton(UIButtonType.Custom);
-			_mailButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button.png"), UIControlState.Normal);
-			_mailButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button_pressed.png"), UIControlState.Selected);
+			_mailButton.SetBackgroundImage(backgroundStretch, UIControlState.Normal);
+			_mailButton.SetBackgroundImage(backgroundPressedStretched, UIControlState.Selected);
 			_mailButton.SetImage(UIImage.FromFile("ios/Info/icon_mail.png"), UIControlState.Normal);
-			_mailButton.Frame = new RectangleF(View.Bounds.Width -150, _infoTextLabel.Frame.Bottom, 130, 40);
+			_mailButton.ImageEdgeInsets = new UIEdgeInsets(0,0,9,0);
+			_mailButton.Frame = new RectangleF(View.Bounds.Width -150, _infoTextLabel.Frame.Bottom, 120, 40);
 			_mailButton.TouchUpInside += HandleTouchMailButton; 
 
-			_mailController.Finished+= HandleFinishedMail;
-
+			InitMailController();			//_mailController.MailComposeDelegate = new MailViewControllerDelegate();
+				 
 			Add(_phoneButton);
 			Add(_logo);
 			Add(_infoTextLabel);
@@ -80,9 +86,25 @@ namespace Hashbot.IPhone
 		
 		}
 
+		void InitMailController()
+		{
+
+
+			_mailController = new MFMailComposeViewController();
+		    
+			_mailController.SetToRecipients(new string[] {
+				_email
+			});
+			_mailController.SetSubject("Заказать приложение");
+			_mailController.SetMessageBody("Текст Заказа", false);
+			_mailController.Finished += HandleFinishedMail;
+		}
+
 		void HandleFinishedMail (object sender, MFComposeResultEventArgs e)
 		{
 		  e.Controller.DismissViewController(true,null); 
+			InitMailController();
+
 		}
 
 		void HandleTouchMailButton (object sender, EventArgs e)
@@ -109,5 +131,15 @@ namespace Hashbot.IPhone
 		}
 
 	}
+
+//	class MailViewControllerDelegate : MFMailComposeViewControllerDelegate
+//	{
+//		public override void Finished(MFMailComposeViewController controller, MFMailComposeResult result, NSError error)
+//		{
+//			Console.WriteLine("Finished");
+//
+//
+//		}
+//	}
 }
 
