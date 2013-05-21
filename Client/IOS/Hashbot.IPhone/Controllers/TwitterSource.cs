@@ -51,6 +51,15 @@ namespace Hashbot.IPhone
 		{
 			return _rowHeight; 
 		}
+		public void PurgeImages()
+		{
+			foreach (var tweet in _tableItems)
+			{
+				var file = Helpers.FileById(tweet.MessageId);
+				File.Delete(file);
+			}
+
+		}
 	}
 }
 

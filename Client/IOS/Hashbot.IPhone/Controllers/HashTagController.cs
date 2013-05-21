@@ -34,6 +34,13 @@ namespace Hashbot.IPhone
 		{
 			// Releases the view if it doesn't have a superview.
 			base.DidReceiveMemoryWarning();
+			if (_source != null)
+			{
+				_source.PurgeImages();
+				_source = null;
+				_page = 1;
+				_twitter.MessagesByTag(HashTag, _page);
+			}   
 			
 			// Release any cached data, images, etc that aren't in use.
 		}
