@@ -107,9 +107,8 @@ namespace Hashbot.IPhone
 
 		void HandleRowSelectedEvent(TwitterMessage tweet)
 		{
-			if (_tweetController == null)
-				_tweetController = new TweetController(tweet);
-			_tweetController.InitWith(tweet); 
+			_tweetController = new TweetController(tweet);
+
 			NavigationController.PushViewController(_tweetController, true);
 		}
 
