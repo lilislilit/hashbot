@@ -42,25 +42,37 @@ namespace Hashbot.IPhone
 		{
 			base.ViewDidLoad();
 
-			_table = new UITableView(new RectangleF(0,0,View.Bounds.Width,View.Bounds.Height-60)); 
-
-			_moreButton = new UIButton(UIButtonType.RoundedRect);
-			_moreButton.Frame = new RectangleF(View.Center.X-65,_table.Frame.Height+30, 130, 40);
-			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
-			_moreButton.SetTitleColor(UIColor.FromRGB(0,0,0), UIControlState.Normal);
-			_moreButton.TouchUpInside += HandleTouchMoreButton;
-			_moreButton.SetTitle("Loading", UIControlState.Normal);
+			LoadTable(); 
 
 			_twitter.MessagesByTag(HashTag);
 			_twitter.MessagesLoaded += HandleMessagesLoaded;
-
-			Add(_table);
-			Add(_moreButton);
 
 			_page = 1;
 
 
 			// Perform any additional setup after loading the view, typically from a nib.
+		}
+
+		void LoadTable()
+		{
+			_table = new UITableView(new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height));
+			var tmpView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
+			tmpView.BackgroundColor = UIColor.Clear;
+			_table.TableFooterView = tmpView;
+			_moreButton = new UIButton(UIButtonType.RoundedRect);
+			_moreButton.Frame = new RectangleF((tmpView.Bounds.Width - 130) / 2, (tmpView.Frame.Height - 40) / 2, 130, 40);
+			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
+			_moreButton.TouchUpInside += HandleTouchMoreButton;
+			_moreButton.SetTitle("Loading", UIControlState.Normal);
+			Add(_table);
+			tmpView.Add(_moreButton);
+		}
+
+		public override void ViewWillLayoutSubviews()
+		{
+			base.ViewWillLayoutSubviews();
+
+			_table.Frame = View.Bounds;
 		}
 
 		void HandleMessagesLoaded(Exception error, TwitterMessage[] tweets)
