@@ -59,8 +59,6 @@ namespace Hashbot.IPhone
 			var backgroundPressed = UIImage.FromFile("ios/Info/button_pressed.png");
 			var backgroundPressedStretched = backgroundPressed.StretchableImage(11, 0);
 
-			var imagePhoneButton = UIImage.FromFile("ios/Info/icon_phone.png");
-
 			_phoneButton = new UIButton(UIButtonType.Custom);
 			_phoneButton.SetBackgroundImage(backgroundPressedStretched, UIControlState.Selected);
 			_phoneButton.SetBackgroundImage(backgroundStretch, UIControlState.Normal);
