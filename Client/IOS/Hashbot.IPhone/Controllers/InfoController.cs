@@ -21,7 +21,7 @@ namespace Hashbot.IPhone
 
 		public InfoController() : base ("InfoController", null)
 		{
-			_phoneNumber = "7-812-309-3879";
+			_phoneNumber = "78123093879";
 			_email = "hello24@touchin.ru";
 			_mailController = new MFMailComposeViewController ();
 			_mailController.SetToRecipients (new string[]{_email});
@@ -56,13 +56,14 @@ namespace Hashbot.IPhone
 			_infoTextLabel.TextColor = UIColor.FromRGB(65, 65, 65);
 			_infoTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			_infoTextLabel.Lines = 0;
-			_phoneButton = new UIButton(UIButtonType.Custom);
 
+			_phoneButton = new UIButton(UIButtonType.Custom);
 			_phoneButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button_pressed.png"), UIControlState.Selected);
 			_phoneButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button.png"), UIControlState.Normal);
 			_phoneButton.SetImage(UIImage.FromFile("ios/Info/icon_phone.png"), UIControlState.Normal);
 			_phoneButton.Frame = new RectangleF(View.Bounds.X + 20, _infoTextLabel.Frame.Bottom, 130, 40);
 			_phoneButton.TouchUpInside += HandleTouchPhoneButton;
+		
 			_mailButton = new UIButton(UIButtonType.Custom);
 			_mailButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button.png"), UIControlState.Normal);
 			_mailButton.SetBackgroundImage(UIImage.FromFile("ios/Info/button_pressed.png"), UIControlState.Selected);
@@ -91,8 +92,15 @@ namespace Hashbot.IPhone
 
 		void HandleTouchPhoneButton (object sender, EventArgs e)
 		{
-			var pref = @"tel://";
-			UIApplication.SharedApplication.OpenUrl(new NSUrl(pref+_phoneNumber));
+
+			var phoneTo = NSUrl.FromString("tel:"+_phoneNumber);
+			if (UIApplication.SharedApplication.CanOpenUrl(phoneTo)) {
+				UIApplication.SharedApplication.OpenUrl(phoneTo);
+			} else {
+				new UIAlertView("Ошибка", "Не можем позвонить с данного устройства", null, "Ок", null).Show();
+			}
+
+		
 		}
 		private void InitData()
 		{

@@ -115,9 +115,7 @@ namespace Hashbot.IPhone
 			if (_info == null)
 				_info = new InfoController();
 
-			NavigationController.SetNavigationBarHidden(true, true);
-
-			NavigationController.PushViewController(_info, true);
+			this.PresentViewController (_info,true,null);
 		}
 	}
 }
