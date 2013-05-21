@@ -56,6 +56,7 @@ namespace Hashbot.IPhone
 		void LoadTable()
 		{
 			_table = new UITableView(new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height));
+			_table.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 			var tmpView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
 			tmpView.BackgroundColor = UIColor.Clear;
 			_table.TableFooterView = tmpView;
