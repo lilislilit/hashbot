@@ -12,6 +12,7 @@ namespace Hashbot.IPhone
 		public const string CellId = "TwitterTableCell";
 		private UILabel _headingLabel, _subheadingLabel, _dateLabel;
 		private UIImageView _imageView;
+		private UIImage _clippingImage;
 
 		public TwitterTableCell() : base (UITableViewCellStyle.Default, CellId)
 		{
@@ -35,6 +36,7 @@ namespace Hashbot.IPhone
 				TextAlignment = UITextAlignment.Center,
 				BackgroundColor = UIColor.Clear
 			};
+			_clippingImage = UIImage.FromFile("ios/Main/mask_avatar_mini.png");
 			ContentView.Add(_headingLabel);
 			ContentView.Add(_subheadingLabel);
 			ContentView.Add(_imageView);
@@ -52,17 +54,21 @@ namespace Hashbot.IPhone
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
-			_imageView.Frame = new RectangleF(0, 5, 33, 33);
-			_headingLabel.Frame = new RectangleF(40, 10, ContentView.Bounds.Width - 63, 25);
-			_subheadingLabel.Frame = new RectangleF(40, 40, ContentView.Bounds.Width - 63, 20);
-			_dateLabel.Frame = new RectangleF(ContentView.Bounds.Width-100, 10, 100, 15);
+			_imageView.Frame = new RectangleF(5, 5, _clippingImage.Size.Width+2,_clippingImage.Size.Height+2);
+
+			_headingLabel.Frame = new RectangleF(60, 10, ContentView.Frame.Width - 63, 25);
+			_subheadingLabel.Frame = new RectangleF(60, 40, ContentView.Frame.Width - 63, 20);
+			_dateLabel.Frame = new RectangleF(ContentView.Frame.Width-100, 10, 100, 15);
 		}
 
 		public void InitWith(TwitterMessage twitt)
 		{
+			var preclippedAvatar = UIImage.FromFile(twitt.TwitterUser.ImageUri);
 			var rowDate = twitt.CreatedAt;
+			var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
+			
 			var dateLabel = (rowDate - DateTime.Now).Hours > 24 ? rowDate.ToString() : String.Format("{0:G} часов", Math.Abs((rowDate - DateTime.Now).Hours));
-			UpdateCell(twitt.TwitterUser.Name, twitt.Text, UIImage.FromFile(twitt.TwitterUser.ImageUri), dateLabel);
+			UpdateCell(twitt.TwitterUser.Name, twitt.Text,clippedImage, dateLabel);
 		}
 	}
 }

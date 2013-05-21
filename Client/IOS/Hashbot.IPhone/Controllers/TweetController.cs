@@ -24,6 +24,7 @@ namespace Hashbot.IPhone
 			InitLayout();
 
 		}
+
 		public void InitWith(TwitterMessage tweet)
 		{
 			_tweet = tweet;
@@ -31,8 +32,9 @@ namespace Hashbot.IPhone
 			_userLabel.Text = tweet.TwitterUser.Name;
 			_sourceLabel.Text = tweet.Source;
 			_urlLabel.Text = tweet.Url;
-			_avatar.Image = UIImage.FromFile(_tweet.TwitterUser.ImageUri);
+			_avatar.Image = Helpers.GetMaskedAvatar(UIImage.FromFile(Helpers.FileById(_tweet.MessageId)),UIImage.FromFile("ios/Main/mask_avatar.png"));
 		}
+
 		public override void DidReceiveMemoryWarning()
 		{
 			// Releases the view if it doesn't have a superview.
@@ -40,7 +42,7 @@ namespace Hashbot.IPhone
 			
 			// Release any cached data, images, etc that aren't in use.
 		}
-	
+
 		public override void ViewDidLoad()
 		{
 
@@ -51,11 +53,11 @@ namespace Hashbot.IPhone
 
 		void InitLayout()
 		{
-			 _imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
+			_imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
 			View.AddSubview(_imageView);
 			View.SendSubviewToBack(_imageView);
-
-			_avatar = new UIImageView(UIImage.FromFile(Helpers.FileById(_tweet.MessageId)));
+			var maskedAvatar = Helpers.GetMaskedAvatar(UIImage.FromFile(Helpers.FileById(_tweet.MessageId)),UIImage.FromFile("ios/Main/mask_avatar.png"));
+			_avatar = new UIImageView(maskedAvatar);
 			_avatar.Frame = new RectangleF(View.Bounds.X + 10, View.Bounds.X + 20, 64, 64);
 
 			_tweetLabel = new UILabel(new RectangleF(View.Bounds.X + 20, View.Bounds.Y + 80, View.Bounds.Width - 60, View.Bounds.Height / 3));
@@ -70,7 +72,7 @@ namespace Hashbot.IPhone
 			_userLabel.BackgroundColor = UIColor.Clear;
 			_userLabel.Text = _tweet.TwitterUser.Name;
 			_userLabel.Font = UIFont.FromName("Helvetica", 25);
-			_userLabel.TextColor =  UIColor.FromRGB(68, 100, 43);
+			_userLabel.TextColor = UIColor.FromRGB(68, 100, 43);
 
 			_line = new UIImageView(UIImage.FromFile("ios/Tweets/line.png"));
 			_line.Frame = new RectangleF(View.Bounds.X + 20, _tweetLabel.Frame.Bottom + 2, View.Bounds.Width - 60, 1);

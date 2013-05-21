@@ -140,9 +140,7 @@
     <BundleResource Include="Resources\ios\Main\avatar_big.png" />
     <BundleResource Include="Resources\ios\Main\avatar_big%402x.png" />
     <BundleResource Include="Resources\ios\Main\mask_avatar.png" />
-    <BundleResource Include="Resources\ios\Main\mask_avatar%402x.png" />
     <BundleResource Include="Resources\ios\Main\mask_avatar_mini.png" />
-    <BundleResource Include="Resources\ios\Main\mask_avatar_mini%402x.png" />
     <BundleResource Include="Resources\ios\Main\table.png" />
     <BundleResource Include="Resources\ios\Main\table%402x.png" />
     <BundleResource Include="Resources\ios\Main\table_pressed.png" />
@@ -172,6 +170,8 @@
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\info.txt" />
+    <BundleResource Include="Resources\ios\Main\mask_avatarb2%402x.png" />
+    <BundleResource Include="Resources\ios\Main\mask_avatar_minib2%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="Resources\ios\Icons\iTunesArtwork.png" />
