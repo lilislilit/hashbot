@@ -37,7 +37,7 @@ namespace Hashbot.IPhone
 
 		public static void SetSelectedBackground(this UIButton button, string path, int leftCap = 0, int topCap = 0)
 		{
-			var buttonState = UIControlState.Selected;
+			var buttonState = UIControlState.Highlighted;
 			BackgroundForState(button, path, leftCap, topCap, buttonState);
 		}
 

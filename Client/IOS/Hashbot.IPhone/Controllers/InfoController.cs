@@ -87,7 +87,7 @@ namespace Hashbot.IPhone
 		
 			_mailButton = new UIButton(UIButtonType.Custom);
 			_mailButton.SetBackground(_buttonBackground,11);
-			_mailButton.SetSelectedBackground(_buttonBackground,11);
+			_mailButton.SetSelectedBackground(_buttonPressedBackground,11);
 			_mailButton.SetImage(UIImage.FromFile("ios/Info/icon_mail.png"), UIControlState.Normal);
 			_mailButton.ImageEdgeInsets = _buttonInsets;
 			_mailButton.Frame = new RectangleF(View.Bounds.Width -150, _infoTextLabel.Frame.Bottom, 120, 40);
