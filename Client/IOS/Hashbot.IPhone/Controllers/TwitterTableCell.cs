@@ -33,18 +33,18 @@ namespace Hashbot.IPhone
 
 			_imageView = new UIImageView();
 			_headingLabel = new UILabel() {
-				Font = UIFont.FromName("Helvetica",24f),
+				Font = Fonts.Helvetica(24),
 				TextColor = UIColor.FromRGB (0, 0, 0),
 				BackgroundColor = UIColor.Clear
 			};
 			_subheadingLabel = new UILabel() {
-				Font = UIFont.FromName("Helvetica", 16f),
+				Font = Fonts.Helvetica(16),
 				TextColor = UIColor.FromRGB (137, 137, 137),
 				TextAlignment = UITextAlignment.Center,
 				BackgroundColor = UIColor.Clear
 			};
 			_dateLabel = new UILabel() {
-				Font = UIFont.FromName("Helvetica", 16f),
+				Font = Fonts.Helvetica(16),
 				TextColor = UIColor.FromRGB (137, 137, 137),
 				TextAlignment = UITextAlignment.Center,
 				BackgroundColor = UIColor.Clear

@@ -64,9 +64,6 @@ namespace Hashbot.IPhone
 			_logo.Frame = new RectangleF(View.Bounds.Width/2-_logo.Frame.Width/2, 20, _logo.Image.Size.Width, _logo.Image.Size.Height);
 			Add(_logo);
 
-//			var frame = View.Bounds;
-//			frame.X = 20;
-//			frame
 			var frame = new RectangleF(20, _logo.Frame.Bottom-40, View.Frame.Width - 20, View.Frame.Height - _logo.Frame.Height-80);
 			_infoTextLabel = new UILabel(frame);
 			_infoTextLabel.BackgroundColor = UIColor.Clear;
@@ -95,12 +92,7 @@ namespace Hashbot.IPhone
 
 			Add(_mailButton);	 
 
-			InitMailController();			//_mailController.MailComposeDelegate = new MailViewControllerDelegate();
-
-
-
-
-		
+			InitMailController();		
 		}
 
 		void InitMailController()
@@ -149,14 +141,5 @@ namespace Hashbot.IPhone
 
 	}
 
-//	class MailViewControllerDelegate : MFMailComposeViewControllerDelegate
-//	{
-//		public override void Finished(MFMailComposeViewController controller, MFMailComposeResult result, NSError error)
-//		{
-//			Console.WriteLine("Finished");
-//
-//
-//		}
-//	}
 }
 
