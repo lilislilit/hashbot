@@ -82,7 +82,7 @@ namespace Hashbot.IPhone
 			var rowDate = twitt.CreatedAt;
 			var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
 			
-			var dateLabel = (rowDate - DateTime.Now).Hours > 24 ? rowDate.ToString() : String.Format("{0:G} часов", Math.Abs((rowDate - DateTime.Now).Hours));
+			var dateLabel = (rowDate.Subtract(DateTime.Now)).Days < 0 ? rowDate.ToString("dd.MM") : String.Format("{0:G} часов", Math.Abs(rowDate.Subtract(DateTime.Now).Hours));
 			UpdateCell(twitt.TwitterUser.Name, twitt.Text, clippedImage, dateLabel);
 		}
 	}
