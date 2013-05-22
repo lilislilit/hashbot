@@ -27,6 +27,7 @@ namespace Hashbot.IPhone
 
 	public static class Helpers
 	{
+
 		public static string FileById(string MessageId)
 		{
 			string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -44,7 +45,7 @@ namespace Hashbot.IPhone
 			return UIImage.FromImage(imageToMask.CGImage.WithMask(mask));
 		}
 
-		public static void SetBackground(this UIButton button, string path, int leftCap = 0, int topCap = 0)
+		public static void SetBackground(this UIButton button, string path, int? leftCap = null, int? topCap = null)
 		{
 			var buttonState = UIControlState.Normal;
 			BackgroundForState(button, path, leftCap, topCap, buttonState);
@@ -52,18 +53,18 @@ namespace Hashbot.IPhone
 
 		}
 
-		public static void SetSelectedBackground(this UIButton button, string path, int leftCap = 0, int topCap = 0)
+		public static void SetSelectedBackground(this UIButton button, string path, int? leftCap = null, int? topCap = null)
 		{
 			var buttonState = UIControlState.Highlighted;
 			BackgroundForState(button, path, leftCap, topCap, buttonState);
 		}
 
-		private static void BackgroundForState(UIButton button, string path, int leftCap, int topCap, UIControlState buttonState)
+		private static void BackgroundForState(UIButton button, string path, int? leftCap, int? topCap, UIControlState buttonState)
 		{
 			var backgroundImage = UIImage.FromFile(path);
-			if (leftCap != 0 || topCap != 0)
+			if (leftCap.HasValue || topCap.HasValue)
 			{
-				var backgroundStretch = backgroundImage.StretchableImage(leftCap, topCap);
+				var backgroundStretch = backgroundImage.StretchableImage(leftCap ?? 0, topCap ?? 0);
 				button.SetBackgroundImage(backgroundStretch, buttonState);
 			} else
 			{
