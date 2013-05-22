@@ -26,6 +26,33 @@ namespace Hashbot.IPhone
 
 			return UIImage.FromImage(imageToMask.CGImage.WithMask(mask));
 		}
+
+		public static void SetBackground(this UIButton button, string path, int leftCap = 0, int topCap = 0)
+		{
+			var buttonState = UIControlState.Normal;
+			BackgroundForState(button, path, leftCap, topCap, buttonState);
+
+
+		}
+
+		public static void SetSelectedBackground(this UIButton button, string path, int leftCap = 0, int topCap = 0)
+		{
+			var buttonState = UIControlState.Selected;
+			BackgroundForState(button, path, leftCap, topCap, buttonState);
+		}
+
+		private static void BackgroundForState(UIButton button, string path, int leftCap, int topCap, UIControlState buttonState)
+		{
+			var backgroundImage = UIImage.FromFile(path);
+			if (leftCap != 0 || topCap != 0)
+			{
+				var backgroundStretch = backgroundImage.StretchableImage(leftCap, topCap);
+				button.SetBackgroundImage(backgroundStretch, buttonState);
+			} else
+			{
+				button.SetBackgroundImage(backgroundImage, buttonState);
+			}
+		}
 	}
 }
 

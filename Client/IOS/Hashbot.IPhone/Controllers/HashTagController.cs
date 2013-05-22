@@ -69,6 +69,7 @@ namespace Hashbot.IPhone
 			_table.TableFooterView = tmpView;
 			_moreButton = new UIButton(UIButtonType.RoundedRect);
 			_moreButton.Frame = new RectangleF((tmpView.Bounds.Width - 130) / 2, (tmpView.Frame.Height - 40) / 2, 130, 40);
+			_moreButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
 			_moreButton.SetTitle("Loading", UIControlState.Normal);
@@ -131,10 +132,9 @@ namespace Hashbot.IPhone
 
 		private void HandleRightBarButton(object sender, EventArgs args)
 		{
-			if (_info == null)
-				_info = new InfoController();
+			_info = _info ?? new InfoController();
 
-			this.PresentViewController (_info,true,null);
+			NavigationController.PushViewController(_info, true);
 		}
 	}
 }

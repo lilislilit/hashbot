@@ -20,7 +20,7 @@ namespace Hashbot.IPhone
 
 			_appleNavController = new UINavigationController();
 			_appleTab = new HashTagController();
-			_appleTab.Title = _appleTab.HashTag = "#Xamarin2";
+			_appleTab.Title = _appleTab.HashTag = "#Apple";
 			_appleTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_apple.png");
 			_appleNavController.PushViewController(_appleTab, false);
 
@@ -36,11 +36,11 @@ namespace Hashbot.IPhone
 			_gitHubTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_github.png");
 		     _githubNavController.PushViewController(_gitHubTab, false);
 
-			var tabs = new UIViewController[] {
-			  _twitterNavController,_appleNavController,_dribbleNavController,_githubNavController
-			};
 			HidesBottomBarWhenPushed = true;
-			ViewControllers = tabs;
+			ViewControllers = new UIViewController[] {
+				_twitterNavController,_appleNavController,_dribbleNavController,_githubNavController
+			};
+
 			NavigationItem.Title = SelectedViewController.Title;
 
 		}

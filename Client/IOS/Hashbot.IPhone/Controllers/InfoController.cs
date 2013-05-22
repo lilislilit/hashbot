@@ -18,13 +18,25 @@ namespace Hashbot.IPhone
 		private string _phoneNumber;
 		private string _email;
 		private MFMailComposeViewController _mailController;
+		private string _buttonBackground;
+		private string _buttonPressedBackground;
+		private UIEdgeInsets _buttonInsets;
 
-		public InfoController() : base ("InfoController", null)
+
+		public InfoController() : base()
 		{
 			_phoneNumber = "78123093879";
 			_email = "hello24@touchin.ru";
+			_buttonBackground = "ios/Info/button.png";
+			_buttonPressedBackground = "ios/Info/button_pressed.png";
+			_buttonInsets = new UIEdgeInsets(0,0,9,0);
+
+			Title = "Инфо";
+			HidesBottomBarWhenPushed = true;
 
 		}
+
+
 		
 		public override void DidReceiveMemoryWarning()
 		{
@@ -37,50 +49,57 @@ namespace Hashbot.IPhone
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
 			InitLayout();
+
 			InitData();
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
+
 		private void InitLayout()
 		{
 
+			View.BackgroundColor = UIColor.White;
 			_logo = new UIImageView(UIImage.FromFile("ios/Info/logo.png"));
 			_logo.Frame = new RectangleF(View.Bounds.Width/2-_logo.Frame.Width/2, 20, _logo.Image.Size.Width, _logo.Image.Size.Height);
+			Add(_logo);
 
-			_infoTextLabel = new UILabel(new RectangleF(View.Bounds.X + 20, _logo.Frame.Bottom, View.Frame.Width - 20, View.Frame.Height -_logo.Frame.Height));
+//			var frame = View.Bounds;
+//			frame.X = 20;
+//			frame
+			var frame = new RectangleF(20, _logo.Frame.Bottom-40, View.Frame.Width - 20, View.Frame.Height - _logo.Frame.Height-80);
+			_infoTextLabel = new UILabel(frame);
 			_infoTextLabel.BackgroundColor = UIColor.Clear;
-			_infoTextLabel.Font = UIFont.FromName("Helvetica", 14);
+			_infoTextLabel.Font = UIFont.FromName("Helvetica", 11);
 			_infoTextLabel.TextColor = UIColor.FromRGB(65, 65, 65);
 			_infoTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			_infoTextLabel.Lines = 0;
-
-			var backgroundImage = UIImage.FromFile("ios/Info/button.png");
-			var backgroundStretch = backgroundImage.StretchableImage(11, 0);
-			var backgroundPressed = UIImage.FromFile("ios/Info/button_pressed.png");
-			var backgroundPressedStretched = backgroundPressed.StretchableImage(11, 0);
+			Add(_infoTextLabel);
 
 			_phoneButton = new UIButton(UIButtonType.Custom);
-			_phoneButton.SetBackgroundImage(backgroundPressedStretched, UIControlState.Selected);
-			_phoneButton.SetBackgroundImage(backgroundStretch, UIControlState.Normal);
+			_phoneButton.SetBackground(_buttonBackground, 11);
+			_phoneButton.SetSelectedBackground(_buttonPressedBackground, 11);
 			_phoneButton.SetImage(UIImage.FromFile("ios/Info/icon_phone.png"), UIControlState.Normal);
-			_phoneButton.ImageEdgeInsets=new UIEdgeInsets(0,0,9,0);
+			_phoneButton.ImageEdgeInsets = _buttonInsets;
 			_phoneButton.Frame = new RectangleF(View.Bounds.X + 20, _infoTextLabel.Frame.Bottom, 120, 40);
 			_phoneButton.TouchUpInside += HandleTouchPhoneButton;
+			Add(_phoneButton);
 		
 			_mailButton = new UIButton(UIButtonType.Custom);
-			_mailButton.SetBackgroundImage(backgroundStretch, UIControlState.Normal);
-			_mailButton.SetBackgroundImage(backgroundPressedStretched, UIControlState.Selected);
+			_mailButton.SetBackground(_buttonBackground,11);
+			_mailButton.SetSelectedBackground(_buttonBackground,11);
 			_mailButton.SetImage(UIImage.FromFile("ios/Info/icon_mail.png"), UIControlState.Normal);
-			_mailButton.ImageEdgeInsets = new UIEdgeInsets(0,0,9,0);
+			_mailButton.ImageEdgeInsets = _buttonInsets;
 			_mailButton.Frame = new RectangleF(View.Bounds.Width -150, _infoTextLabel.Frame.Bottom, 120, 40);
 			_mailButton.TouchUpInside += HandleTouchMailButton; 
 
+			Add(_mailButton);	 
+
 			InitMailController();			//_mailController.MailComposeDelegate = new MailViewControllerDelegate();
-				 
-			Add(_phoneButton);
-			Add(_logo);
-			Add(_infoTextLabel);
-			Add(_mailButton);
+
+
+
+
 		
 		}
 
