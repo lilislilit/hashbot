@@ -20,7 +20,7 @@ namespace Hashbot.IPhone
 
 			_appleNavController = new UINavigationController();
 			_appleTab = new HashTagController();
-			_appleTab.Title = _appleTab.HashTag = "#Apple";
+			_appleTab.Title = _appleTab.HashTag = "#Xamarin2";
 			_appleTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_apple.png");
 			_appleNavController.PushViewController(_appleTab, false);
 
