@@ -59,7 +59,6 @@ namespace Hashbot.IPhone
 			_line.Frame = new RectangleF(20, _tweetLabel.Frame.Bottom + 2, View.Bounds.Width / 2, 1);
 			_dateLabel.Frame = new RectangleF(20, _line.Frame.Bottom + 2, _line.Bounds.Width / 3, 25);
 
-			var urlFont = Fonts.Helvetica(10);
 			var urlLabelWidth = _line.Frame.Width - _dateLabel.Frame.Width;
 			var urlStartPosition = _line.Frame.Right - urlLabelWidth;
 			_urlLabel.Frame = new RectangleF(urlStartPosition, _line.Frame.Bottom + 2, urlLabelWidth, 25);
