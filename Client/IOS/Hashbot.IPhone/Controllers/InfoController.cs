@@ -22,7 +22,9 @@ namespace Hashbot.IPhone
 		private string _buttonBackground;
 		private string _buttonPressedBackground;
 		private UIEdgeInsets _buttonInsets;
+		private UIScrollView _infoTextScrollView;
 
+		private RectangleF _portaitInfoRect;
 
 		public InfoController() : base()
 		{
@@ -65,22 +67,45 @@ namespace Hashbot.IPhone
 			_logo.Frame = new RectangleF(View.Bounds.Width/2-_logo.Frame.Width/2, 20, _logo.Image.Size.Width, _logo.Image.Size.Height);
 			Add(_logo);
 
-			var frame = new RectangleF(20, _logo.Frame.Bottom-40, View.Frame.Width - 20, View.Frame.Height - _logo.Frame.Height-80);
-			_infoTextLabel = new UILabel(frame);
+
+			_portaitInfoRect = new RectangleF();
+			_portaitInfoRect.X = 20;
+			_portaitInfoRect.Y = (_logo.Frame.Bottom/2)-20;
+			_portaitInfoRect.Height = View.Frame.Height - _logo.Frame.Height;
+			_portaitInfoRect.Width = View.Frame.Width-20;
+			_infoTextScrollView = new UIScrollView(_portaitInfoRect);
+		
+			var labelRect = _portaitInfoRect;
+			labelRect.Y = 0;
+			labelRect.X = 0;
+
+			_infoTextLabel = new UILabel(labelRect);
+			_infoTextLabel.Frame.Y = _infoTextLabel.Bounds.Y;
+			_infoTextLabel.Text = System.IO.File.ReadAllText("info.txt");
 			_infoTextLabel.BackgroundColor = UIColor.Clear;
-			_infoTextLabel.Font = UIFont.FromName("Helvetica", 11);
+			_infoTextLabel.Font = Fonts.Helvetica(14);
 			_infoTextLabel.TextColor = UIColor.FromRGB(65, 65, 65);
 			_infoTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			_infoTextLabel.Lines = 0;
-			Add(_infoTextLabel);
+
+
+
+
+			_infoTextScrollView.ContentSize = _portaitInfoRect.Size;
+			//_infoTextScrollView.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+			_infoTextScrollView.AddSubview(_infoTextLabel);
+
+			 Add(_infoTextScrollView);
+
 
 			_phoneButton = new UIButton(UIButtonType.Custom);
 			_phoneButton.SetBackground(_buttonBackground, 11);
 			_phoneButton.SetSelectedBackground(_buttonPressedBackground, 11);
 			_phoneButton.SetImage(UIImage.FromFile("ios/Info/icon_phone.png"), UIControlState.Normal);
 			_phoneButton.ImageEdgeInsets = _buttonInsets;
-			_phoneButton.Frame = new RectangleF(View.Bounds.X + 20, _infoTextLabel.Frame.Bottom, 120, 40);
+			_phoneButton.Frame = new RectangleF((View.Bounds.Width-100)/8, _infoTextScrollView.Frame.Bottom, 100, 40);
 			_phoneButton.TouchUpInside += HandleTouchPhoneButton;
+			_phoneButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			Add(_phoneButton);
 		
 			_mailButton = new UIButton(UIButtonType.Custom);
@@ -88,12 +113,32 @@ namespace Hashbot.IPhone
 			_mailButton.SetSelectedBackground(_buttonPressedBackground,11);
 			_mailButton.SetImage(UIImage.FromFile("ios/Info/icon_mail.png"), UIControlState.Normal);
 			_mailButton.ImageEdgeInsets = _buttonInsets;
-			_mailButton.Frame = new RectangleF(View.Bounds.Width -150, _infoTextLabel.Frame.Bottom, 120, 40);
+			_mailButton.Frame = new RectangleF(View.Bounds.Width-100-_phoneButton.Frame.X, _infoTextScrollView.Frame.Bottom, 100, 40);
 			_mailButton.TouchUpInside += HandleTouchMailButton; 
-
+			_mailButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;;
 			Add(_mailButton);	 
 
 			InitMailController();		
+		}
+		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+		{
+			base.DidRotate(fromInterfaceOrientation);
+			if (fromInterfaceOrientation == UIInterfaceOrientation.Portrait || fromInterfaceOrientation == UIInterfaceOrientation.PortraitUpsideDown)
+			{
+				_infoTextLabel.Frame = new RectangleF(0, 0, View.Bounds.Width / 2 - 10, View.Bounds.Height);
+				var frame = _infoTextLabel.Frame;
+				frame.X = View.Bounds.Width / 2;
+				frame.Y = 0;
+				frame.Height = View.Bounds.Height - 80;
+				_infoTextScrollView.Frame = frame;
+			} else{
+				_infoTextScrollView.Frame = _portaitInfoRect;
+				var rect = _portaitInfoRect;
+				rect.X = 0;
+				rect.Y = 0;
+				_infoTextLabel.Frame = rect;
+			}
+
 		}
 
 		void InitMailController()
@@ -137,7 +182,7 @@ namespace Hashbot.IPhone
 		private void InitData()
 		{
 
-			_infoTextLabel.Text = System.IO.File.ReadAllText("info.txt");
+		
 		}
 
 	}
