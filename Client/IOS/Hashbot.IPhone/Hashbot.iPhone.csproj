@@ -89,6 +89,8 @@
     <Folder Include="Resources\" />
     <Folder Include="Controllers\" />
     <Folder Include="Resources\ios\" />
+    <Folder Include="Controllers\Extensions\" />
+    <Folder Include="Controllers\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -107,8 +109,10 @@
     <Compile Include="Controllers\TweetController.designer.cs">
       <DependentUpon>TweetController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\Helpers.cs" />
     <Compile Include="Controllers\TwitterSource.cs" />
+    <Compile Include="Controllers\Extensions\ButtonExtensions.cs" />
+    <Compile Include="Controllers\Extensions\ImageExtensions.cs" />
+    <Compile Include="Controllers\Helpers\Fonts.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -4,6 +4,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
 using Hashbot.Logic;
+using Hashbot.IPhone.ImageExtensions;
 
 namespace Hashbot.IPhone
 {
@@ -50,7 +51,8 @@ namespace Hashbot.IPhone
 			_imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
 			View.AddSubview(_imageView);
 			View.SendSubviewToBack(_imageView);
-			var maskedAvatar = Helpers.GetMaskedAvatar(UIImage.FromFile(Helpers.FileById(_tweet.MessageId)),UIImage.FromFile("ios/Main/mask_avatar.png"));
+			var tempAvatar = UIImage.FromFile(_tweet.TwitterUser.ImageUri);
+			var maskedAvatar = tempAvatar.GetMaskedAvatar(UIImage.FromFile("ios/Main/mask_avatar.png"));
 			_avatar = new UIImageView(maskedAvatar);
 			_avatar.Frame = new RectangleF(View.Bounds.X + 10, View.Bounds.X + 20, 64, 64);
 

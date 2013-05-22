@@ -3,6 +3,7 @@ using System.Drawing;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using Hashbot.Logic;
+using Hashbot.IPhone.ImageExtensions;
 
 namespace Hashbot.IPhone
 {

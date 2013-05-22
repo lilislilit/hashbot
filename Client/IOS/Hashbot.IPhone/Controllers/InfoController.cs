@@ -6,6 +6,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.MessageUI;
 using MonoTouch.AddressBookUI;
+using Hashbot.IPhone.ButtonExtensions;
 
 namespace Hashbot.IPhone
 {

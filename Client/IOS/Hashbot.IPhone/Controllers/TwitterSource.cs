@@ -55,7 +55,7 @@ namespace Hashbot.IPhone
 		{
 			foreach (var tweet in _tableItems)
 			{
-				var file = Helpers.FileById(tweet.MessageId);
+				var file = tweet.TwitterUser.ImageUri;
 				File.Delete(file);
 			}
 
