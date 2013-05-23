@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using MonoTouch.CoreAnimation;
 
-
 namespace Hashbot.IPhone
 {
 	public partial class HashTagController : UIViewController
@@ -24,6 +23,7 @@ namespace Hashbot.IPhone
 		private UIButton _moreButton;
 		private TweetController _tweetController;
 		private InfoController _info;
+		private UIAlertView _loadingAlert;
 
 		public HashTagController() : base()
 		{
@@ -52,7 +52,11 @@ namespace Hashbot.IPhone
 			base.ViewDidLoad();
 
 			LoadTable(); 
+			InitPreloader();
+		
 
+
+		
 			_twitter.MessagesByTag(HashTag);
 			_twitter.MessagesLoaded += HandleMessagesLoaded;
 
@@ -61,6 +65,29 @@ namespace Hashbot.IPhone
 
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
+
+
+		void InitPreloader()
+		{
+			_loadingAlert = new UIAlertView(new RectangleF(10, 20, 290, 100));
+			float centerX = _loadingAlert.Frame.Width / 2;
+			float centerY = _loadingAlert.Frame.Height / 2;
+			var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+			activitySpinner.Frame = new RectangleF(centerX - (activitySpinner.Frame.Width / 2), centerY - activitySpinner.Frame.Height, activitySpinner.Frame.Width, activitySpinner.Frame.Height);
+			activitySpinner.StartAnimating();
+			_loadingAlert.AddSubview(activitySpinner);
+
+			var loadingLabel = new UILabel(new RectangleF(centerX - 70, activitySpinner.Frame.Bottom, 200, 15));
+			loadingLabel.Text = "Твиты загружаются";
+			loadingLabel.BackgroundColor = UIColor.Clear;
+			loadingLabel.TextColor = UIColor.White;
+			loadingLabel.Font = Fonts.HelveticaBold(14);
+
+			_loadingAlert.AddSubview(loadingLabel);
+			_loadingAlert.SizeToFit();
+			_loadingAlert.Show();
+		}
+
 
 		void LoadTable()
 		{
@@ -72,10 +99,10 @@ namespace Hashbot.IPhone
 
 		
 			_moreButton = new UIButton(UIButtonType.Custom);
-			_moreButton.TintColor  =UIColor.FromRGB(247,247,247);
+			_moreButton.TintColor = UIColor.FromRGB(247, 247, 247);
 
 			_moreButton.Frame = new RectangleF(10, (tmpView.Frame.Height - 40) / 2, 300, 40);
-			_moreButton.BackgroundColor =  UIColor.FromRGB(247,247,247);
+			_moreButton.BackgroundColor = UIColor.FromRGB(247, 247, 247);
 			_moreButton.Layer.CornerRadius = 10;
 			_moreButton.Layer.BorderWidth = 2;
 			_moreButton.Layer.BorderColor = UIColor.FromRGB(186, 188, 187).CGColor;
@@ -83,11 +110,12 @@ namespace Hashbot.IPhone
 			_moreButton.AutoresizingMask = UIViewAutoresizing.All;
 			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
-			_moreButton.SetTitle("Loading", UIControlState.Normal);
+			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
 
 			Add(_table);
 			tmpView.Add(_moreButton);
 		}
+
 
 		public override void ViewWillLayoutSubviews()
 		{
@@ -95,6 +123,7 @@ namespace Hashbot.IPhone
 
 			_table.Frame = View.Bounds;
 		}
+
 
 		void HandleMessagesLoaded(Exception error, TwitterMessage[] tweets)
 		{
@@ -118,13 +147,15 @@ namespace Hashbot.IPhone
 			}
 		}
 
+
 		private void UIUpdate()
 		{
 			_table.Source = _source;
 			_table.ReloadData();
-			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
+			_loadingAlert.DismissWithClickedButtonIndex(0, true);
 
 		}
+
 
 		void HandleRowSelectedEvent(TwitterMessage tweet)
 		{
@@ -133,14 +164,16 @@ namespace Hashbot.IPhone
 			NavigationController.PushViewController(_tweetController, true);
 		}
 
+
 		private void HandleTouchMoreButton(object sender, EventArgs e)
 		{
 
-			_moreButton.SetTitle("Loading", UIControlState.Normal);
+			_loadingAlert.Show();
 			_page++;
 			_twitter.MessagesByTag(HashTag, _page);
 
 		}
+
 
 		private void HandleRightBarButton(object sender, EventArgs args)
 		{
