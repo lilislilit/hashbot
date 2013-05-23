@@ -121,19 +121,24 @@ namespace Hashbot.IPhone
 			InitMailController();		
 		}
 
+		void InitLandscapeLayout()
+		{
+			_infoTextLabel.Frame = new RectangleF(0, 0, View.Bounds.Width / 2 - 20, View.Bounds.Height);
+			var frame = _infoTextLabel.Frame;
+			_infoTextScrollView.ContentSize = frame.Size;
+			frame.X = View.Bounds.Width / 2;
+			frame.Y = 0;
+			frame.Height = View.Bounds.Height - 80;
+			_infoTextScrollView.Frame = frame;
+		}
+
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
 		{
 			base.DidRotate(fromInterfaceOrientation);
 
 			if (fromInterfaceOrientation == UIInterfaceOrientation.Portrait || fromInterfaceOrientation == UIInterfaceOrientation.PortraitUpsideDown)
 			{
-				_infoTextLabel.Frame = new RectangleF(0, 0, View.Bounds.Width / 2 - 20, View.Bounds.Height);
-				var frame = _infoTextLabel.Frame;
-				_infoTextScrollView.ContentSize = frame.Size;
-				frame.X = View.Bounds.Width / 2;
-				frame.Y = 0;
-				frame.Height = View.Bounds.Height - 80;
-				_infoTextScrollView.Frame = frame;
+				InitLandscapeLayout();
 			} else{
 				_infoTextScrollView.Frame = _portaitInfoRect;
 				var rect = _portaitInfoRect;
@@ -143,7 +148,14 @@ namespace Hashbot.IPhone
 			}
 
 		}
-
+		public override void ViewWillLayoutSubviews()
+		{
+			base.ViewWillLayoutSubviews();
+			if (InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || InterfaceOrientation == UIInterfaceOrientation.LandscapeRight)
+			{
+				InitLandscapeLayout();
+			}
+		}
 		void InitMailController()
 		{
 			_mailController = new MFMailComposeViewController();

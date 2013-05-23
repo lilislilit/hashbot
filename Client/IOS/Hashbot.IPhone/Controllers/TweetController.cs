@@ -61,6 +61,7 @@ namespace Hashbot.IPhone
 
 			base.ViewDidLoad();
 			NavigationItem.Title = "Твит";
+
 			InitSizes();
 			InitLayout();
 
@@ -69,9 +70,10 @@ namespace Hashbot.IPhone
 
 		}
 
-		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
+
+		public override void ViewDidLayoutSubviews()
 		{
-			base.DidRotate(fromInterfaceOrientation);
+			base.ViewDidLayoutSubviews();
 
 			_tweetLabel.Frame = new RectangleF(20, _sourceLabel.Frame.Bottom + 2, View.Bounds.Width - 30, _twitLabelSize.Height);
 			_tweetLabel.SizeToFit();
@@ -85,11 +87,6 @@ namespace Hashbot.IPhone
 			var urlStartPosition = _line.Frame.Right - _urlSize.Width;
 			_urlLabel.Frame = new RectangleF(urlStartPosition, _line.Frame.Bottom + 2, _urlSize.Width, 25);
 			_urlLabel.SizeToFit();
-		}
-
-		public override void ViewDidLayoutSubviews()
-		{
-			base.ViewDidLayoutSubviews();
 		}
 
 		void InitLayout()

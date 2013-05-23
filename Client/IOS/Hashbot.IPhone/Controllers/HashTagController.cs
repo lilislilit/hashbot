@@ -24,6 +24,7 @@ namespace Hashbot.IPhone
 		private UIButton _moreButton;
 		private TweetController _tweetController;
 		private UIAlertView _loadingAlert;
+		private UIView _buttonSubView;
 
 		private InfoController _info;
 		private InfoController Info
@@ -73,6 +74,7 @@ namespace Hashbot.IPhone
 		}
 
 
+
 		void InitPreloader()
 		{
 			_loadingAlert = new UIAlertView(new RectangleF(10, 20, 290, 100));
@@ -104,27 +106,27 @@ namespace Hashbot.IPhone
 			_table = new UITableView(new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height));
 			_table.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 
-			var tmpView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
-			tmpView.BackgroundColor = UIColor.Clear;
-			_table.TableFooterView = tmpView;
+			_buttonSubView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
+			_buttonSubView.BackgroundColor = UIColor.Clear;
+			_table.TableFooterView = _buttonSubView;
 
 		
 			_moreButton = new UIButton(UIButtonType.Custom);
 			_moreButton.TintColor = UIColor.FromRGB(247, 247, 247);
 
-			_moreButton.Frame = new RectangleF(10, (tmpView.Frame.Height - 40) / 2, 300, 40);
+			_moreButton.Frame = new RectangleF(10, (_buttonSubView.Frame.Height - 40) / 2, 300, 40);
 			_moreButton.BackgroundColor = UIColor.FromRGB(247, 247, 247);
 			_moreButton.Layer.CornerRadius = 10;
 			_moreButton.Layer.BorderWidth = 2;
 			_moreButton.Layer.BorderColor = UIColor.FromRGB(186, 188, 187).CGColor;
 
-			_moreButton.AutoresizingMask = UIViewAutoresizing.All;
+			_moreButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
 			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
 
 			Add(_table);
-			tmpView.Add(_moreButton);
+			_buttonSubView.Add(_moreButton);
 		}
 
 
@@ -133,6 +135,8 @@ namespace Hashbot.IPhone
 			base.ViewWillLayoutSubviews();
 
 			_table.Frame = View.Bounds;
+			_buttonSubView.Frame.Width = _table.Bounds.Width;
+			_moreButton.Frame.Width = _buttonSubView.Frame.Width - 50;
 		}
 
 
