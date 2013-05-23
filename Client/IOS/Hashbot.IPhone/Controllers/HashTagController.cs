@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
+using MonoTouch.CoreAnimation;
+
 
 namespace Hashbot.IPhone
 {
@@ -67,12 +69,22 @@ namespace Hashbot.IPhone
 			var tmpView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
 			tmpView.BackgroundColor = UIColor.Clear;
 			_table.TableFooterView = tmpView;
-			_moreButton = new UIButton(UIButtonType.RoundedRect);
-			_moreButton.Frame = new RectangleF((tmpView.Bounds.Width - 130) / 2, (tmpView.Frame.Height - 40) / 2, 130, 40);
-			_moreButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+
+		
+			_moreButton = new UIButton(UIButtonType.Custom);
+			_moreButton.TintColor  =UIColor.FromRGB(247,247,247);
+
+			_moreButton.Frame = new RectangleF(10, (tmpView.Frame.Height - 40) / 2, 300, 40);
+			_moreButton.BackgroundColor =  UIColor.FromRGB(247,247,247);
+			_moreButton.Layer.CornerRadius = 10;
+			_moreButton.Layer.BorderWidth = 2;
+			_moreButton.Layer.BorderColor = UIColor.FromRGB(186, 188, 187).CGColor;
+
+			_moreButton.AutoresizingMask = UIViewAutoresizing.All;
 			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
 			_moreButton.SetTitle("Loading", UIControlState.Normal);
+
 			Add(_table);
 			tmpView.Add(_moreButton);
 		}

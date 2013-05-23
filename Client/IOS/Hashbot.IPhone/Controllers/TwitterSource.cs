@@ -9,7 +9,7 @@ namespace Hashbot.IPhone
 	public class TwitterSource : UITableViewSource
 	{
 		private TwitterMessage[] _tableItems;
-		private const int _rowHeight = 70;
+		private const int _rowHeight = 60;
 
 		public event Action<TwitterMessage> RowSelectedEvent; 
 
