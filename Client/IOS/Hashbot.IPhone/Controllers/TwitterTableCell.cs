@@ -9,8 +9,8 @@ namespace Hashbot.IPhone
 {
 	public class TwitterTableCell : UITableViewCell
 	{
-
 		public const string CellId = "TwitterTableCell";
+
 		private UILabel _userLabel, _tweetLabel, _dateLabel;
 		private UIImageView _imageView;
 		private UIImageView _backImageView;
@@ -19,12 +19,13 @@ namespace Hashbot.IPhone
 
 		public TwitterTableCell() : base (UITableViewCellStyle.Default, CellId)
 		{
-		
-
 			ContentView.BackgroundColor = UIColor.Clear;
-			_backImageView = new UIImageView(UIImage.FromFile("ios/Main/table.png"));
+
 			var backgroundRect = new RectangleF(0, 0, ContentView.Frame.Width, Frame.Height - 2);
+
+			_backImageView = new UIImageView(UIImage.FromFile("ios/Main/table.png"));
 			_backImageView.Frame = backgroundRect;
+
 			_backPressedImageView = new UIImageView(UIImage.FromFile("ios/Main/table_pressed.png"));
 			_backPressedImageView.Frame = backgroundRect;
 
@@ -33,19 +34,22 @@ namespace Hashbot.IPhone
 			SelectedBackgroundView = _backPressedImageView;
 
 			_imageView = new UIImageView();
+
 			_userLabel = new UILabel() {
-				Font = Fonts.HelveticaBold(16),
+				Font = UIFont.FromName(Fonts.HelveticaBold, 16),
 				TextColor = UIColor.FromRGB (0, 0, 0),
 				BackgroundColor = UIColor.Clear
 			};
+
 			_tweetLabel = new UILabel() {
-				Font = Fonts.Helvetica(14),
+				Font = UIFont.FromName(Fonts.Helvetica, 14),
 				TextColor = UIColor.FromRGB (137, 137, 137),
 				TextAlignment = UITextAlignment.Left,
 				BackgroundColor = UIColor.Clear
 			};
+
 			_dateLabel = new UILabel() {
-				Font = Fonts.Helvetica(14),
+				Font = UIFont.FromName(Fonts.Helvetica, 14),
 				TextColor = UIColor.FromRGB (137, 137, 137),
 				TextAlignment = UITextAlignment.Right,
 				BackgroundColor = UIColor.Clear
@@ -74,7 +78,7 @@ namespace Hashbot.IPhone
 
 			_userLabel.Frame = new RectangleF(60, 10, ContentView.Frame.Width - _dateLabel.Frame.Width, 15);
 			_tweetLabel.Frame = new RectangleF(60, _userLabel.Frame.Bottom + 10, ContentView.Frame.Width - 63, 20);
-			var dateSize = ((NSString)_dateLabel.Text).StringSize(Fonts.Helvetica(14));
+			var dateSize = ((NSString)_dateLabel.Text).StringSize(UIFont.FromName(Fonts.Helvetica, 14));
 			_dateLabel.Frame = new RectangleF(ContentView.Frame.Width-dateSize.Width-2, 10, dateSize.Width, 15);
 		}
 
@@ -85,48 +89,24 @@ namespace Hashbot.IPhone
 			var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
 			var timeDifference = DateTime.Now - rowDate;
 			var dateLabel = PrepareDate(timeDifference, rowDate);
+
 			UpdateCell(twitt.TwitterUser.Name, twitt.Text, clippedImage, dateLabel);
 		}
 
 		private string PrepareDate(TimeSpan date, DateTime origDate)
 		{
 
-			var seconds = date.Seconds;
-			var minutes = date.Minutes;
-			var hours = date.Hours;
-			var days = date.Days;
-
-			if (seconds <=0 && minutes <= 0 && hours == 0 && days == 0)
-				{
-
-					return "сейчас";
-						
-				}
-			else if (seconds > 0 && minutes == 0 && hours == 0 && days == 0)
-				{
-					return seconds + " c.";
-
-				} 
-			else if (minutes > 0 && hours == 0 && days == 0)
-				{
-
-					return minutes + " м.";
-						
-				} 
-			else if (hours > 0 && days == 0)
-				{
-
-					return hours + " ч.";
-
-				}
-			else 
-				{
-
-					return origDate.ToString("dd.MM.yyyy");
-
-				}
-
-
+			if (date.TotalSeconds < 1) {
+				return "сейчас";	
+			} else if (date.TotalMinutes < 1) {
+				return date.Seconds + " c.";
+			} else if (date.TotalHours < 1) {
+				return date.Minutes + " м.";						
+			} else if (date.TotalDays < 1) {
+				return date.Hours + " ч.";
+			} else {
+				return origDate.ToString("dd.MM.yyyy");
+			}
 		}
 	}
 }

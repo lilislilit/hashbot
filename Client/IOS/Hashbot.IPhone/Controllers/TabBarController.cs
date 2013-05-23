@@ -34,7 +34,7 @@ namespace Hashbot.IPhone
 			_gitHubTab = new HashTagController();
 			_gitHubTab.Title = _gitHubTab.HashTag = "#GitHub";
 			_gitHubTab.TabBarItem.Image = UIImage.FromFile("ios/TabBar/icon_github.png");
-		     _githubNavController.PushViewController(_gitHubTab, false);
+		    _githubNavController.PushViewController(_gitHubTab, false);
 
 			HidesBottomBarWhenPushed = true;
 			ViewControllers = new UIViewController[] {

@@ -10,8 +10,9 @@ namespace Hashbot.Logic
 {
 	public class TwitterClient
 	{
+		private string _lastId = String.Empty;
 		private const string _baseUrl = "http://search.twitter.com";
-		private string _lastId=String.Empty;
+
 		public event Action<Exception,TwitterMessage[]> MessagesLoaded;
 
 		public TwitterClient()
@@ -23,7 +24,7 @@ namespace Hashbot.Logic
 			var request = new RestRequest("search.json");
 			var client = new RestClient();
 			client.BaseUrl = _baseUrl;
-
+			 
 			request.RootElement = "TwitterResponse";
 			request.AddParameter("q", hashtag);
 			request.AddParameter("include_entities", "true");
@@ -31,32 +32,31 @@ namespace Hashbot.Logic
 			request.AddParameter("page", page);
 			request.AddParameter("max_id", _lastId);
 
-			var asyncHandle = client.ExecuteAsync<TwitterResponse>(request, HandleResponse);
-
+			client.ExecuteAsync<TwitterResponse>(request, HandleResponse);
 		}
 
 		void HandleResponse(IRestResponse<TwitterResponse> response)
 		{
-			if (response.ErrorException != null||response.ErrorMessage!=null)
+			if (response.ErrorException != null || response.ErrorMessage != null)
 			{
-				MessagesLoaded(response.ErrorException??new Exception(response.ErrorMessage), null);
-			} else
-			{
-				var finalResults = new List<TwitterMessage>();
-				if (response.Data.Results.Count != 0)
-				{
-					foreach (var tweet in response.Data.Results)
-					{
-						finalResults.Add(ParseItem(tweet));
+				MessagesLoaded(response.ErrorException ?? new Exception(response.ErrorMessage), null);
+			} else {
+				if (response.Data.Results.Count == 0) {
+					MessagesLoaded(new Exception("Больше не могу"), null);
 
-					}
-					_lastId = finalResults.Last().MessageId;
-					MessagesLoaded(null, finalResults.ToArray());
-				} else
-				{
-					MessagesLoaded(new Exception("Больше не могу"),null);
+					return;
 				}
 
+				var finalResults = new List<TwitterMessage>();
+
+				foreach (var tweet in response.Data.Results)
+				{
+					finalResults.Add(ParseItem(tweet));
+				}
+
+				_lastId = finalResults.Last().MessageId;
+
+				MessagesLoaded(null, finalResults.ToArray());
 			}
 		}
 
@@ -68,13 +68,23 @@ namespace Hashbot.Logic
 				var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 				var localFilename = rawTweet.Id + ".png";
 				var localPath = Path.Combine(documentsPath, localFilename);
+
 				File.WriteAllBytes(localPath, bytes);
 			
 				var url = rawTweet.Entities.Urls.Count != 0 ? rawTweet.Entities.Urls.First().DisplayUrl : "";
-				var message = new TwitterMessage() {MessageId = rawTweet.Id.ToString(), Text = rawTweet.Text,
-					Url = url, CreatedAt = DateTime.Parse(rawTweet.CreatedAt), 
-					Source = rawTweet.Source, TwitterUser = new User(){Name = rawTweet.FromUser, ImageUri = localPath }
+
+				var message = new TwitterMessage {
+					MessageId = rawTweet.Id.ToString(),
+					Text = rawTweet.Text,
+					Url = url,
+					CreatedAt = DateTime.Parse(rawTweet.CreatedAt), 
+					Source = rawTweet.Source,
+					TwitterUser = new User {
+						Name = rawTweet.FromUser,
+						ImageUri = localPath
+					}
 				};
+
 				return message;
 			}
 		}

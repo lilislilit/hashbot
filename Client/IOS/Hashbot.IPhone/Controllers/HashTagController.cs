@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
 using MonoTouch.CoreAnimation;
+using MonoTouch.CoreGraphics;
 
 namespace Hashbot.IPhone
 {
@@ -16,19 +17,26 @@ namespace Hashbot.IPhone
 	{
 		public string HashTag { get; set; }
 
+		private int _page;
 		private TwitterClient _twitter;
 		private UITableView _table;
 		private TwitterSource _source;
-		private int _page;
 		private UIButton _moreButton;
 		private TweetController _tweetController;
-		private InfoController _info;
 		private UIAlertView _loadingAlert;
 
+		private InfoController _info;
+		private InfoController Info
+		{
+			get {
+				return _info ?? (_info = new InfoController());
+			}
+		}
 		public HashTagController() : base()
 		{
 			_twitter = new TwitterClient();
 			var infoButton = new UIBarButtonItem("Инфо", UIBarButtonItemStyle.Plain, HandleRightBarButton);
+
 			NavigationItem.SetRightBarButtonItem(infoButton, false);
 		}
 
@@ -36,11 +44,13 @@ namespace Hashbot.IPhone
 		{
 			// Releases the view if it doesn't have a superview.
 			base.DidReceiveMemoryWarning();
+
 			if (_source != null)
 			{
 				_source.PurgeImages();
 				_source = null;
 				_page = 1;
+
 				_twitter.MessagesByTag(HashTag, _page);
 			}   
 			
@@ -54,14 +64,10 @@ namespace Hashbot.IPhone
 			LoadTable(); 
 			InitPreloader();
 		
-
-
-		
 			_twitter.MessagesByTag(HashTag);
 			_twitter.MessagesLoaded += HandleMessagesLoaded;
 
 			_page = 1;
-
 
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
@@ -70,18 +76,22 @@ namespace Hashbot.IPhone
 		void InitPreloader()
 		{
 			_loadingAlert = new UIAlertView(new RectangleF(10, 20, 290, 100));
-			float centerX = _loadingAlert.Frame.Width / 2;
-			float centerY = _loadingAlert.Frame.Height / 2;
+
+			var centerX = _loadingAlert.Bounds.GetMidX(); //Width / 2;
+			var centerY = _loadingAlert.Bounds.GetMidY(); //Height / 2;
 			var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+
 			activitySpinner.Frame = new RectangleF(centerX - (activitySpinner.Frame.Width / 2), centerY - activitySpinner.Frame.Height, activitySpinner.Frame.Width, activitySpinner.Frame.Height);
 			activitySpinner.StartAnimating();
+
 			_loadingAlert.AddSubview(activitySpinner);
 
-			var loadingLabel = new UILabel(new RectangleF(centerX - 70, activitySpinner.Frame.Bottom, 200, 15));
-			loadingLabel.Text = "Твиты загружаются";
-			loadingLabel.BackgroundColor = UIColor.Clear;
-			loadingLabel.TextColor = UIColor.White;
-			loadingLabel.Font = Fonts.HelveticaBold(14);
+			var loadingLabel = new UILabel(new RectangleF(centerX - 70, activitySpinner.Frame.Bottom, 200, 15)) {
+				Text = "Твиты загружаются",
+				BackgroundColor = UIColor.Clear,
+				TextColor = UIColor.White,
+				Font = UIFont.FromName(Fonts.HelveticaBold, 14)
+			};
 
 			_loadingAlert.AddSubview(loadingLabel);
 			_loadingAlert.SizeToFit();
@@ -93,6 +103,7 @@ namespace Hashbot.IPhone
 		{
 			_table = new UITableView(new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height));
 			_table.SeparatorStyle = UITableViewCellSeparatorStyle.None;
+
 			var tmpView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
 			tmpView.BackgroundColor = UIColor.Clear;
 			_table.TableFooterView = tmpView;
@@ -129,25 +140,20 @@ namespace Hashbot.IPhone
 		{
 			if (error != null)
 			{
-				InvokeOnMainThread(()=>
-				                   {
+				InvokeOnMainThread(()=> {
 					_loadingAlert.DismissWithClickedButtonIndex(0,false);
 					new UIAlertView("Ошибка", String.Format("Ошибка соединения с твиттером: {0}",error.Message), null, "Ок").Show();
 				});
-			} else
-			{
+			} else {
 				if (_source == null)
 				{
 					_source = new TwitterSource(tweets);
 					_source.RowSelectedEvent += HandleRowSelectedEvent;
-				} else
-				{
+				} else {
 					_source.AddTweets(tweets);
 				}
 
 				InvokeOnMainThread(UIUpdate);
-
-
 			}
 		}
 
@@ -157,7 +163,6 @@ namespace Hashbot.IPhone
 			_table.Source = _source;
 			_table.ReloadData();
 			_loadingAlert.DismissWithClickedButtonIndex(0, true);
-
 		}
 
 
@@ -171,19 +176,16 @@ namespace Hashbot.IPhone
 
 		private void HandleTouchMoreButton(object sender, EventArgs e)
 		{
+			_page++;
 
 			_loadingAlert.Show();
-			_page++;
 			_twitter.MessagesByTag(HashTag, _page);
-
 		}
 
 
 		private void HandleRightBarButton(object sender, EventArgs args)
 		{
-			_info = _info ?? new InfoController();
-
-			NavigationController.PushViewController(_info, true);
+			NavigationController.PushViewController(Info, true);
 		}
 	}
 }

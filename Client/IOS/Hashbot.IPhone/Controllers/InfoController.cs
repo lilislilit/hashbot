@@ -10,7 +10,7 @@ using Hashbot.IPhone.ButtonExtensions;
 
 namespace Hashbot.IPhone
 {
-	public partial class InfoController : UIViewController
+	public class InfoController : UIViewController
 	{
 		private UILabel _infoTextLabel;
 		private UIButton _phoneButton;
@@ -36,7 +36,6 @@ namespace Hashbot.IPhone
 
 			Title = "Инфо";
 			HidesBottomBarWhenPushed = true;
-
 		}
 
 
@@ -53,13 +52,12 @@ namespace Hashbot.IPhone
 		{
 			base.ViewDidLoad();
 
-			InitLayout();
+			InitSubviews();
 
-			InitData();
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-		private void InitLayout()
+		private void InitSubviews()
 		{
 
 			View.BackgroundColor = UIColor.White;
@@ -83,7 +81,7 @@ namespace Hashbot.IPhone
 			_infoTextLabel.Frame.Y = _infoTextLabel.Bounds.Y;
 			_infoTextLabel.Text = System.IO.File.ReadAllText("info.txt");
 			_infoTextLabel.BackgroundColor = UIColor.Clear;
-			_infoTextLabel.Font = Fonts.Helvetica(14);
+			_infoTextLabel.Font = UIFont.FromName(Fonts.Helvetica, 14);
 			_infoTextLabel.TextColor = UIColor.FromRGB(65, 65, 65);
 			_infoTextLabel.LineBreakMode = UILineBreakMode.WordWrap;
 			_infoTextLabel.Lines = 0;
@@ -118,13 +116,15 @@ namespace Hashbot.IPhone
 			_mailButton.Frame = new RectangleF(View.Bounds.Width-100-_phoneButton.Frame.X, _infoTextScrollView.Frame.Bottom, 100, 40);
 			_mailButton.TouchUpInside += HandleTouchMailButton; 
 			_mailButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;;
-			Add(_mailButton);	 
+			Add(_mailButton);	
 
 			InitMailController();		
 		}
+
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
 		{
 			base.DidRotate(fromInterfaceOrientation);
+
 			if (fromInterfaceOrientation == UIInterfaceOrientation.Portrait || fromInterfaceOrientation == UIInterfaceOrientation.PortraitUpsideDown)
 			{
 				_infoTextLabel.Frame = new RectangleF(0, 0, View.Bounds.Width / 2 - 20, View.Bounds.Height);
@@ -146,13 +146,12 @@ namespace Hashbot.IPhone
 
 		void InitMailController()
 		{
-
-
 			_mailController = new MFMailComposeViewController();
 		    
-			_mailController.SetToRecipients(new string[] {
+			_mailController.SetToRecipients(new [] {
 				_email
 			});
+
 			_mailController.SetSubject("Заказать приложение");
 			_mailController.SetMessageBody("Текст Заказа", false);
 			_mailController.Finished += HandleFinishedMail;
@@ -160,30 +159,24 @@ namespace Hashbot.IPhone
 
 		void HandleFinishedMail (object sender, MFComposeResultEventArgs e)
 		{
-		  e.Controller.DismissViewController(true,null); 
+		 	e.Controller.DismissViewController(true,null); 
 			InitMailController();
-
 		}
 
 		void HandleTouchMailButton (object sender, EventArgs e)
 		{
-			this.PresentViewController (_mailController, true,null);
+			PresentViewController (_mailController, true,null);
 		}
 
 		void HandleTouchPhoneButton (object sender, EventArgs e)
 		{
+			var phoneTo = NSUrl.FromString("tel:" + _phoneNumber);
 
-			var phoneTo = NSUrl.FromString("tel:"+_phoneNumber);
 			if (UIApplication.SharedApplication.CanOpenUrl(phoneTo)) {
 				UIApplication.SharedApplication.OpenUrl(phoneTo);
 			} else {
 				new UIAlertView("Ошибка", "Не можем позвонить с данного устройства", null, "Ок", null).Show();
 			}
-
-		
-		}
-		private void InitData()
-		{
 
 		
 		}

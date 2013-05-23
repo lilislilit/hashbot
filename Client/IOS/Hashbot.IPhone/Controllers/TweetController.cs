@@ -35,15 +35,15 @@ namespace Hashbot.IPhone
 		void InitSizes()
 		{
 
-			_tweetFont = Fonts.Helvetica(15);
+			_tweetFont = UIFont.FromName(Fonts.Helvetica, 15);
 			var tweetStringSize = (NSString)_tweet.Text;
 			_twitLabelSize = tweetStringSize.StringSize(_tweetFont, View.Bounds.Width - 60, UILineBreakMode.WordWrap);
 
-			_dateFont = Fonts.Helvetica(10);
+			_dateFont = UIFont.FromName(Fonts.Helvetica, 10);
 			var dateString = (NSString)_tweet.CreatedAt.ToString("dd.MM.yyyy");
 			_dateStringSize = dateString.StringSize(_dateFont);
 
-			_urlFont = Fonts.Helvetica(10);
+			_urlFont = UIFont.FromName(Fonts.Helvetica, 10);
 			var urlString = (NSString)_tweet.Url;
 			_urlSize = urlString.StringSize(_urlFont);
 		}
@@ -87,6 +87,11 @@ namespace Hashbot.IPhone
 			_urlLabel.SizeToFit();
 		}
 
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+		}
+
 		void InitLayout()
 		{
 			_imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
@@ -102,7 +107,7 @@ namespace Hashbot.IPhone
 			Add(_avatar);
 
 
-			var userFont = Fonts.HelveticaBold(22);
+			var userFont = UIFont.FromName(Fonts.HelveticaBold, 22);
 			_userLabel = new UILabel(new RectangleF(_avatar.Frame.Right+20,50, View.Bounds.Width, 25));
 			_userLabel.BackgroundColor = UIColor.Clear;
 			_userLabel.Text = _tweet.TwitterUser.Name;
@@ -110,7 +115,7 @@ namespace Hashbot.IPhone
 			_userLabel.TextColor = UIColor.FromRGB(42, 66, 114);
 			Add(_userLabel);
 
-			var sourceFont = Fonts.HelveticaBold(15);
+			var sourceFont = UIFont.FromName(Fonts.HelveticaBold, 15);
 			_sourceLabel = new UILabel(new RectangleF(_avatar.Frame.Right+20,_userLabel.Frame.Bottom, View.Bounds.Width-_avatar.Frame.Width-40, 25));
 			_sourceLabel.BackgroundColor = UIColor.Clear;
 			_sourceLabel.Font = sourceFont;
