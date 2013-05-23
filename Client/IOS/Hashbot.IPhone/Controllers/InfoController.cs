@@ -92,6 +92,8 @@ namespace Hashbot.IPhone
 
 
 			_infoTextScrollView.ContentSize = _portaitInfoRect.Size;
+			_infoTextScrollView.Bounces = false;
+
 			//_infoTextScrollView.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			_infoTextScrollView.AddSubview(_infoTextLabel);
 
@@ -125,8 +127,9 @@ namespace Hashbot.IPhone
 			base.DidRotate(fromInterfaceOrientation);
 			if (fromInterfaceOrientation == UIInterfaceOrientation.Portrait || fromInterfaceOrientation == UIInterfaceOrientation.PortraitUpsideDown)
 			{
-				_infoTextLabel.Frame = new RectangleF(0, 0, View.Bounds.Width / 2 - 10, View.Bounds.Height);
+				_infoTextLabel.Frame = new RectangleF(0, 0, View.Bounds.Width / 2 - 20, View.Bounds.Height);
 				var frame = _infoTextLabel.Frame;
+				_infoTextScrollView.ContentSize = frame.Size;
 				frame.X = View.Bounds.Width / 2;
 				frame.Y = 0;
 				frame.Height = View.Bounds.Height - 80;
