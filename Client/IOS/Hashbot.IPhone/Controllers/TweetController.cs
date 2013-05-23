@@ -26,7 +26,7 @@ namespace Hashbot.IPhone
 		private SizeF _dateStringSize;
 		private UIFont _dateFont;
 
-		public TweetController(TwitterMessage tweet) : base ("TweetController", null)
+		public TweetController(TwitterMessage tweet) : base ()
 		{
 
 			_tweet = tweet;
@@ -90,6 +90,7 @@ namespace Hashbot.IPhone
 		void InitLayout()
 		{
 			_imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
+			_imageView.Frame = View.Bounds;
 			_imageView.AutoresizingMask = UIViewAutoresizing.All;
 			View.AddSubview(_imageView);
 

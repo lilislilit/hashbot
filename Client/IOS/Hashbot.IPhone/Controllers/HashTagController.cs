@@ -23,7 +23,7 @@ namespace Hashbot.IPhone
 		private TweetController _tweetController;
 		private InfoController _info;
 
-		public HashTagController() : base ("HashTagController", null)
+		public HashTagController() : base()
 		{
 			_twitter = new TwitterClient();
 			var infoButton = new UIBarButtonItem("Инфо", UIBarButtonItemStyle.Plain, HandleRightBarButton);

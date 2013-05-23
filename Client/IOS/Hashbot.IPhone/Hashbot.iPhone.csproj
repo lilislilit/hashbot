@@ -100,25 +100,15 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Controllers\TabBarController.cs" />
     <Compile Include="Controllers\HashTagController.cs" />
-    <Compile Include="Controllers\HashTagController.designer.cs">
-      <DependentUpon>HashTagController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\TwitterTableCell.cs" />
     <Compile Include="Controllers\TweetController.cs" />
-    <Compile Include="Controllers\TweetController.designer.cs">
-      <DependentUpon>TweetController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\TwitterSource.cs" />
     <Compile Include="Controllers\Extensions\ButtonExtensions.cs" />
     <Compile Include="Controllers\Extensions\ImageExtensions.cs" />
     <Compile Include="Controllers\Helpers\Fonts.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <InterfaceDefinition Include="Controllers\HashTagController.xib" />
-    <InterfaceDefinition Include="Controllers\TweetController.xib" />
-  </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ios\Icons\Icon-Small.png" />
     <BundleResource Include="Resources\ios\Icons\Icon-Small%402x.png" />
