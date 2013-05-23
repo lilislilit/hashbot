@@ -90,38 +90,36 @@ namespace Hashbot.IPhone
 
 		private string PrepareDate(TimeSpan date, DateTime origDate)
 		{
-			if (date.Minutes > 0 && date.Hours > 0)
-			{
 
-				if (date.Days > 0)
+			if (date.Seconds <=0 && date.Minutes <= 0 && date.Hours == 0 && date.Days == 0)
+				{
+
+					return "сейчас";
+						
+				}
+			else if (date.Seconds > 0 && date.Minutes == 0 && date.Hours == 0 && date.Days == 0)
+				{
+					return date.Seconds + " c.";
+
+				} 
+			else if (date.Minutes > 0 && date.Hours == 0 && date.Days == 0)
+				{
+
+					return date.Minutes + " м.";
+						
+				} 
+			else if (date.Hours > 0 && date.Days == 0)
+				{
+
+					return date.Hours + " ч.";
+
+				}
+			else 
 				{
 
 					return origDate.ToString("dd.MM.yyyy");
 
-				} else
-				{
-					return date.Hours + " ч.";
 				}
-
-
-			} else if (date.Minutes > 0)
-			{
-
-				return date.Minutes + " м.";
-
-			} else
-			{
-				if (date.Seconds > 0)
-				{
-					return date.Seconds + " c.";
-
-				} else
-				{
-					return "сейчас";
-				}
-
-			}
-
 
 
 		}
