@@ -91,27 +91,32 @@ namespace Hashbot.IPhone
 		private string PrepareDate(TimeSpan date, DateTime origDate)
 		{
 
-			if (date.Seconds <=0 && date.Minutes <= 0 && date.Hours == 0 && date.Days == 0)
+			var seconds = date.Seconds;
+			var minutes = date.Minutes;
+			var hours = date.Hours;
+			var days = date.Days;
+
+			if (seconds <=0 && minutes <= 0 && hours == 0 && days == 0)
 				{
 
 					return "сейчас";
 						
 				}
-			else if (date.Seconds > 0 && date.Minutes == 0 && date.Hours == 0 && date.Days == 0)
+			else if (seconds > 0 && minutes == 0 && hours == 0 && days == 0)
 				{
-					return date.Seconds + " c.";
+					return seconds + " c.";
 
 				} 
-			else if (date.Minutes > 0 && date.Hours == 0 && date.Days == 0)
+			else if (minutes > 0 && hours == 0 && days == 0)
 				{
 
-					return date.Minutes + " м.";
+					return minutes + " м.";
 						
 				} 
-			else if (date.Hours > 0 && date.Days == 0)
+			else if (hours > 0 && days == 0)
 				{
 
-					return date.Hours + " ч.";
+					return hours + " ч.";
 
 				}
 			else 
