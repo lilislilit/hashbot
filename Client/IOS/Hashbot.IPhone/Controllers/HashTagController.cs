@@ -129,7 +129,11 @@ namespace Hashbot.IPhone
 		{
 			if (error != null)
 			{
-				new UIAlertView("Ошибка", "Ошибка соединения с твиттером", null, "Ок").Show();
+				InvokeOnMainThread(()=>
+				                   {
+					_loadingAlert.DismissWithClickedButtonIndex(0,false);
+					new UIAlertView("Ошибка", String.Format("Ошибка соединения с твиттером: {0}",error.Message), null, "Ок").Show();
+				});
 			} else
 			{
 				if (_source == null)

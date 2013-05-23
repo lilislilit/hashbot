@@ -25,7 +25,7 @@ namespace Hashbot.Logic
 			client.BaseUrl = _baseUrl;
 
 			request.RootElement = "TwitterResponse";
-			request.AddParameter("q", "#" + hashtag);
+			request.AddParameter("q", hashtag);
 			request.AddParameter("include_entities", "true");
 			request.AddParameter("rpp", "5");
 			request.AddParameter("page", page);
@@ -37,19 +37,26 @@ namespace Hashbot.Logic
 
 		void HandleResponse(IRestResponse<TwitterResponse> response)
 		{
-			if (response.ErrorException != null)
+			if (response.ErrorException != null||response.ErrorMessage!=null)
 			{
-				MessagesLoaded(response.ErrorException, null);
+				MessagesLoaded(response.ErrorException??new Exception(response.ErrorMessage), null);
 			} else
 			{
 				var finalResults = new List<TwitterMessage>();
-				foreach (var tweet in response.Data.Results)
+				if (response.Data.Results.Count != 0)
 				{
-					finalResults.Add(ParseItem(tweet));
+					foreach (var tweet in response.Data.Results)
+					{
+						finalResults.Add(ParseItem(tweet));
 
+					}
+					_lastId = finalResults.Last().MessageId;
+					MessagesLoaded(null, finalResults.ToArray());
+				} else
+				{
+					MessagesLoaded(new Exception("Больше не могу"),null);
 				}
-				_lastId = finalResults.Last().MessageId;
-				MessagesLoaded(null, finalResults.ToArray());
+
 			}
 		}
 
