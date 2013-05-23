@@ -73,9 +73,9 @@ namespace Hashbot.IPhone
 			_imageView.Frame = new RectangleF(5, 5, _clippingImage.Size.Width + 2, _clippingImage.Size.Height + 2);
 
 			_userLabel.Frame = new RectangleF(60, 10, ContentView.Frame.Width - _dateLabel.Frame.Width, 15);
-			_tweetLabel.Frame = new RectangleF(60, _userLabel.Frame.Bottom+10, ContentView.Frame.Width - 63, 20);
+			_tweetLabel.Frame = new RectangleF(60, _userLabel.Frame.Bottom + 10, ContentView.Frame.Width - 63, 20);
 			var dateSize = ((NSString)_dateLabel.Text).StringSize(Fonts.Helvetica(14));
-			_dateLabel.Frame = new RectangleF(ContentView.Frame.Width-dateSize.Width-2, 10,dateSize.Width, 15);
+			_dateLabel.Frame = new RectangleF(ContentView.Frame.Width-dateSize.Width-2, 10, dateSize.Width, 15);
 		}
 
 		public void InitWith(TwitterMessage twitt)
@@ -83,9 +83,47 @@ namespace Hashbot.IPhone
 			var preclippedAvatar = UIImage.FromFile(twitt.TwitterUser.ImageUri);
 			var rowDate = twitt.CreatedAt;
 			var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
-			
-			var dateLabel = (rowDate.Subtract(DateTime.Now)).Days < 0 ? rowDate.ToString("dd.MM") : String.Format("{0:G} ч.", Math.Abs(rowDate.Subtract(DateTime.Now).Hours));
+			var timeDifference = DateTime.Now - rowDate;
+			var dateLabel = PrepareDate(timeDifference, rowDate);
 			UpdateCell(twitt.TwitterUser.Name, twitt.Text, clippedImage, dateLabel);
+		}
+
+		private string PrepareDate(TimeSpan date, DateTime origDate)
+		{
+			if (date.Minutes > 0 && date.Hours > 0)
+			{
+
+				if (date.Days > 0)
+				{
+
+					return origDate.ToString("dd.MM.yyyy");
+
+				} else
+				{
+					return date.Hours + " ч.";
+				}
+
+
+			} else if (date.Minutes > 0)
+			{
+
+				return date.Minutes + " м.";
+
+			} else
+			{
+				if (date.Seconds > 0)
+				{
+					return date.Seconds + " c.";
+
+				} else
+				{
+					return "сейчас";
+				}
+
+			}
+
+
+
 		}
 	}
 }
