@@ -46,7 +46,7 @@ namespace Hashbot.IPhone
 		{
 			RowSelectedEvent(_tableItems[indexPath.Row]);
 
-			tableView.DeselectRow(indexPath, true); // normal iOS behaviour is to remove the blue highlight
+			tableView.DeselectRow(indexPath, true);
 		}
 
 		public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)

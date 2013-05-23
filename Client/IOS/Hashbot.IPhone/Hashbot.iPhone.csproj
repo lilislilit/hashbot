@@ -107,6 +107,7 @@
     <Compile Include="Controllers\Extensions\ButtonExtensions.cs" />
     <Compile Include="Controllers\Extensions\ImageExtensions.cs" />
     <Compile Include="Controllers\Helpers\Fonts.cs" />
+    <Compile Include="Controllers\Helpers\TextBundle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

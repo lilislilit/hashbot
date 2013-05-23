@@ -36,7 +36,7 @@ namespace Hashbot.IPhone
 		public HashTagController() : base()
 		{
 			_twitter = new TwitterClient();
-			var infoButton = new UIBarButtonItem("Инфо", UIBarButtonItemStyle.Plain, HandleRightBarButton);
+			var infoButton = new UIBarButtonItem(TextBundle.InfoTitle, UIBarButtonItemStyle.Plain, HandleRightBarButton);
 
 			NavigationItem.SetRightBarButtonItem(infoButton, false);
 		}
@@ -89,7 +89,7 @@ namespace Hashbot.IPhone
 			_loadingAlert.AddSubview(activitySpinner);
 
 			var loadingLabel = new UILabel(new RectangleF(centerX - 70, activitySpinner.Frame.Bottom, 200, 15)) {
-				Text = "Твиты загружаются",
+				Text = TextBundle.LoadinCaption,
 				BackgroundColor = UIColor.Clear,
 				TextColor = UIColor.White,
 				Font = UIFont.FromName(Fonts.HelveticaBold, 14)
@@ -123,7 +123,7 @@ namespace Hashbot.IPhone
 			_moreButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
 			_moreButton.TouchUpInside += HandleTouchMoreButton;
-			_moreButton.SetTitle("Показать еще", UIControlState.Normal);
+			_moreButton.SetTitle(TextBundle.LoadMore, UIControlState.Normal);
 
 			Add(_table);
 			_buttonSubView.Add(_moreButton);
@@ -146,7 +146,7 @@ namespace Hashbot.IPhone
 			{
 				InvokeOnMainThread(()=> {
 					_loadingAlert.DismissWithClickedButtonIndex(0,false);
-					new UIAlertView("Ошибка", String.Format("Ошибка соединения с твиттером: {0}",error.Message), null, "Ок").Show();
+					new UIAlertView(TextBundle.Errors.Error, String.Format("{0}: {1}",TextBundle.Errors.TwitterConnError,error.Message), null, TextBundle.AlertButton).Show();
 				});
 			} else {
 				if (_source == null)

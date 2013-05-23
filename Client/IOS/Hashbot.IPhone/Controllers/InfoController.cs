@@ -34,7 +34,7 @@ namespace Hashbot.IPhone
 			_buttonPressedBackground = "ios/Info/button_pressed.png";
 			_buttonInsets = new UIEdgeInsets(0,0,9,0);
 
-			Title = "Инфо";
+			Title = TextBundle.InfoTitle;
 			HidesBottomBarWhenPushed = true;
 		}
 
@@ -164,8 +164,8 @@ namespace Hashbot.IPhone
 				_email
 			});
 
-			_mailController.SetSubject("Заказать приложение");
-			_mailController.SetMessageBody("Текст Заказа", false);
+			_mailController.SetSubject(TextBundle.EmailSubject);
+			_mailController.SetMessageBody(TextBundle.EmailBody, false);
 			_mailController.Finished += HandleFinishedMail;
 		}
 
@@ -187,7 +187,7 @@ namespace Hashbot.IPhone
 			if (UIApplication.SharedApplication.CanOpenUrl(phoneTo)) {
 				UIApplication.SharedApplication.OpenUrl(phoneTo);
 			} else {
-				new UIAlertView("Ошибка", "Не можем позвонить с данного устройства", null, "Ок", null).Show();
+				new UIAlertView(TextBundle.Errors.Error, TextBundle.Errors.PhoneAccessError, null, TextBundle.AlertButton, null).Show();
 			}
 
 		
