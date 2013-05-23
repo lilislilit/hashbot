@@ -11,7 +11,7 @@ namespace Hashbot.Logic
 	public class TwitterClient
 	{
 		private const string _baseUrl = "http://search.twitter.com";
-
+		private string _lastId=String.Empty;
 		public event Action<Exception,TwitterMessage[]> MessagesLoaded;
 
 		public TwitterClient()
@@ -29,6 +29,7 @@ namespace Hashbot.Logic
 			request.AddParameter("include_entities", "true");
 			request.AddParameter("rpp", "5");
 			request.AddParameter("page", page);
+			request.AddParameter("max_id", _lastId);
 
 			var asyncHandle = client.ExecuteAsync<TwitterResponse>(request, HandleResponse);
 
@@ -47,6 +48,7 @@ namespace Hashbot.Logic
 					finalResults.Add(ParseItem(tweet));
 
 				}
+				_lastId = finalResults.Last().MessageId;
 				MessagesLoaded(null, finalResults.ToArray());
 			}
 		}
