@@ -26,6 +26,8 @@ namespace Hashbot.IPhone
 		private SizeF _dateStringSize;
 		private UIFont _dateFont;
 
+		private const int leftBound = 20;
+
 		public TweetController(TwitterMessage tweet) : base ()
 		{
 
@@ -70,17 +72,16 @@ namespace Hashbot.IPhone
 
 		}
 
-
 		public override void ViewDidLayoutSubviews()
 		{
 			base.ViewDidLayoutSubviews();
 
-			_tweetLabel.Frame = new RectangleF(20, _sourceLabel.Frame.Bottom + 2, View.Bounds.Width - 30, _twitLabelSize.Height);
+			_tweetLabel.Frame = new RectangleF(leftBound, _sourceLabel.Frame.Bottom + 2, View.Bounds.Width - 30, _twitLabelSize.Height);
 			_tweetLabel.SizeToFit();
 
-			_line.Frame = new RectangleF(20, _tweetLabel.Frame.Bottom + 2, View.Bounds.Width / 2, 1);
+			_line.Frame = new RectangleF(leftBound, _tweetLabel.Frame.Bottom + 2, View.Bounds.Width / 2, 1);
 
-			_dateLabel.Frame = new RectangleF(20, _line.Frame.Bottom + 2, _line.Bounds.Width / 3, 25);
+			_dateLabel.Frame = new RectangleF(leftBound, _line.Frame.Bottom + 2, _line.Bounds.Width / 3, 25);
 			_dateLabel.SizeToFit();
 
 
@@ -99,63 +100,70 @@ namespace Hashbot.IPhone
 			View.SendSubviewToBack(_imageView);
 			var tempAvatar = UIImage.FromFile(_tweet.TwitterUser.ImageUri);
 			var maskedAvatar = tempAvatar.GetMaskedAvatar(UIImage.FromFile("ios/Main/mask_avatar.png"));
-			_avatar = new UIImageView(maskedAvatar);
-			_avatar.Frame = new RectangleF(20, 30, 64, 64);
+			_avatar = new UIImageView(maskedAvatar) {
+				Frame = new RectangleF(leftBound, 30, 64, 64)
+			};
 			Add(_avatar);
 
 
 			var userFont = UIFont.FromName(Fonts.HelveticaBold, 22);
-			_userLabel = new UILabel(new RectangleF(_avatar.Frame.Right+20,50, View.Bounds.Width, 25));
-			_userLabel.BackgroundColor = UIColor.Clear;
-			_userLabel.Text = _tweet.TwitterUser.Name;
-			_userLabel.Font = userFont;
-			_userLabel.TextColor = UIColor.FromRGB(42, 66, 114);
+
+			var avatarMargin = _avatar.Frame.Right + 20;
+
+			_userLabel = new UILabel(new RectangleF(avatarMargin,50, View.Bounds.Width, 25)) {
+				BackgroundColor = UIColor.Clear,
+				Text = _tweet.TwitterUser.Name,
+				Font = userFont,
+				TextColor = UIColor.FromRGB(42, 66, 114)
+			};
 			Add(_userLabel);
 
 			var sourceFont = UIFont.FromName(Fonts.HelveticaBold, 15);
-			_sourceLabel = new UILabel(new RectangleF(_avatar.Frame.Right+20,_userLabel.Frame.Bottom, View.Bounds.Width-_avatar.Frame.Width-40, 25));
-			_sourceLabel.BackgroundColor = UIColor.Clear;
-			_sourceLabel.Font = sourceFont;
-			_sourceLabel.TextColor = UIColor.FromRGB(65, 65, 65);
-			_sourceLabel.Text = _tweet.Source;
+			_sourceLabel = new UILabel(new RectangleF(avatarMargin,_userLabel.Frame.Bottom, View.Bounds.Width-_avatar.Frame.Width-40, 25)) {	BackgroundColor = UIColor.Clear,
+				Font = sourceFont,
+				TextColor = UIColor.FromRGB(65, 65, 65),
+				Text = _tweet.Source
+			};
 			Add(_sourceLabel);
 
 
-			_tweetLabel = new UILabel(new RectangleF(20,_sourceLabel.Frame.Bottom, View.Bounds.Width - 30, _twitLabelSize.Height));
-			_tweetLabel.BackgroundColor = UIColor.Clear;
-			_tweetLabel.Text = _tweet.Text;
-			_tweetLabel.Font = _tweetFont;
-			_tweetLabel.TextColor = UIColor.FromRGB(65, 65, 65);
-			_tweetLabel.LineBreakMode = UILineBreakMode.WordWrap;
-			_tweetLabel.Lines = 0;
+			_tweetLabel = new UILabel(new RectangleF(leftBound,_sourceLabel.Frame.Bottom, View.Bounds.Width - 30, _twitLabelSize.Height)) {
+				BackgroundColor = UIColor.Clear,
+				Text = _tweet.Text,
+				Font = _tweetFont,
+				TextColor = UIColor.FromRGB(65, 65, 65),
+				LineBreakMode = UILineBreakMode.WordWrap,
+				Lines = 0
+			};
 			_tweetLabel.SizeToFit();
 			Add(_tweetLabel);
 
 
-
 			_line = new UIImageView(UIImage.FromFile("ios/Tweets/line.png"));
-			_line.Frame = new RectangleF(20, _tweetLabel.Frame.Bottom + 2, View.Bounds.Width / 2, 1);
+			_line.Frame = new RectangleF(leftBound, _tweetLabel.Frame.Bottom + 2, View.Bounds.Width / 2, 1);
 			Add(_line);
 
 
 
-			_dateLabel = new UILabel(new RectangleF(20, _line.Frame.Bottom + 2,_dateStringSize.Width, 25));
-			_dateLabel.Text = _tweet.CreatedAt.ToString("dd.MM.yyyy");
-			_dateLabel.Font = _dateFont;
-			_dateLabel.BackgroundColor = UIColor.Clear;
-			_dateLabel.TextColor = UIColor.FromRGB(119, 119, 119);
+			_dateLabel = new UILabel(new RectangleF(leftBound, _line.Frame.Bottom + 2,_dateStringSize.Width, 25)) {
+				Text = _tweet.CreatedAt.ToString("dd.MM.yyyy"),
+				Font = _dateFont,
+				BackgroundColor = UIColor.Clear,
+				TextColor = UIColor.FromRGB(119, 119, 119)
+			};
 			_dateLabel.SizeToFit();
 			Add(_dateLabel);
 
 	
 			var urlStartPosition = _line.Frame.Right - _urlSize.Width;
-			_urlLabel = new UILabel(new RectangleF(urlStartPosition, _line.Frame.Bottom + 2,_urlSize.Width, 25));
-			_urlLabel.Text = _tweet.Url;
-			_urlLabel.Font = _urlFont;
-			_urlLabel.BackgroundColor = UIColor.Clear;
-			_urlLabel.TextColor = UIColor.FromRGB(119, 119, 119);
+			_urlLabel = new UILabel(new RectangleF(urlStartPosition, _line.Frame.Bottom + 2,_urlSize.Width, 25)) {
+				Text = _tweet.Url,
+				Font = _urlFont,
+				BackgroundColor = UIColor.Clear,
+				TextColor = UIColor.FromRGB(119, 119, 119)
+			};
 			_urlLabel.SizeToFit();
-			 Add(_urlLabel);
+			Add(_urlLabel);
 		}
 	}
 }

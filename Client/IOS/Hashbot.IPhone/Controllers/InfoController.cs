@@ -62,7 +62,8 @@ namespace Hashbot.IPhone
 
 			View.BackgroundColor = UIColor.White;
 			_logo = new UIImageView(UIImage.FromFile("ios/Info/logo.png"));
-			_logo.Frame = new RectangleF(View.Bounds.Width/2-_logo.Frame.Width/2, 20, _logo.Image.Size.Width, _logo.Image.Size.Height);
+			_logo.Frame = _logo.Frame.CenterHorizontIn(View.Bounds,20);
+
 			Add(_logo);
 
 
