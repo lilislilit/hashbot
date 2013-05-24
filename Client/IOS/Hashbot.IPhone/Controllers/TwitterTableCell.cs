@@ -21,6 +21,8 @@ namespace Hashbot.IPhone
 
 		public TwitterTableCell() : base (UITableViewCellStyle.Default, CellId)
 		{
+			 _clippingImage = UIImage.FromFile("ios/Main/mask_avatar_mini.png");
+
 			ContentView.BackgroundColor = UIColor.Clear;
 
 			var backgroundRect = new RectangleF(0, 0, ContentView.Frame.Width, Frame.Height - 2);
@@ -57,7 +59,7 @@ namespace Hashbot.IPhone
 				BackgroundColor = UIColor.Clear
 			};
 
-			_clippingImage = UIImage.FromFile("ios/Main/mask_avatar_mini.png");
+
 		
 			ContentView.Add(_userLabel);
 			ContentView.Add(_tweetLabel);
@@ -92,24 +94,31 @@ namespace Hashbot.IPhone
 		public void InitWith(TwitterMessage twitt)
 		{
 			_avatarLoader = _avatarLoader ?? new AvatarLoader();
-			_avatarLoader.GetAvatarByUri(twitt.AvatarUri, twitt.UserId);
 			_avatarLoader.ImageDownloaded += ImageLoadedHandler;
+
+			var imgLocalUri =_avatarLoader.GetAvatarByUri(twitt.AvatarUri, twitt.UserId);
+			var clippedImage = new UIImage();
+			if (!String.IsNullOrEmpty(imgLocalUri))
+			 {
+				clippedImage = UIImage.FromFile(imgLocalUri).GetMaskedAvatar();
+             } 
 			_imgUri = twitt.AvatarUri;
 			var rowDate = twitt.CreatedAt;
 			var timeDifference = DateTime.Now - rowDate;
 			var dateLabel = PrepareDate(timeDifference, rowDate);
 
-			UpdateCell(twitt.UserName, twitt.Text, new UIImage(), dateLabel);
+			UpdateCell(twitt.UserName, twitt.Text, clippedImage, dateLabel);
 
 
 		}
+
+
 
 		private void ImageLoadedHandler(string uri, string origUri)
 		{
 			if (_imgUri == origUri)
 			{
-				var preclippedAvatar = UIImage.FromFile(uri);
-				var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
+				var clippedImage = UIImage.FromFile(uri).GetMaskedAvatar();
 
 				InvokeOnMainThread(()=> {
 				UpdateImage(clippedImage);

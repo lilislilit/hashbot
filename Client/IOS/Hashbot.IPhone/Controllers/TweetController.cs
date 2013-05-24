@@ -32,6 +32,7 @@ namespace Hashbot.IPhone
 		public TweetController(TwitterMessage tweet) : base ()
 		{
 			_tweet = tweet;
+			_tweet.Url = "ссылка на твит";
 
 		}
 
@@ -95,11 +96,10 @@ namespace Hashbot.IPhone
 		{
 			if (uri == origUri)
 			{
-				var tempAvatar = UIImage.FromFile(uri);
-				var maskedAvatar = tempAvatar.GetMaskedAvatar(UIImage.FromFile("ios/Main/mask_avatar.png"));
-
+				var avatarImage = UIImage.FromFile(uri).GetMaskedAvatar();
+			
 				InvokeOnMainThread(()=> {
-				_avatar.Image = maskedAvatar;
+				_avatar.Image = avatarImage;
 				});
 			}
 
@@ -118,11 +118,19 @@ namespace Hashbot.IPhone
 			_avatarLoader.GetAvatarByUri(_tweet.AvatarUri, _tweet.UserId);
 			_avatarLoader.ImageDownloaded += ImageLoadedHandler;
 
+			var imgLocalUri =_avatarLoader.GetAvatarByUri(_tweet.AvatarUri, _tweet.UserId);
+			var clippedImage = new UIImage();
+			if (!String.IsNullOrEmpty(imgLocalUri))
+			{
+				clippedImage = UIImage.FromFile(imgLocalUri).GetMaskedAvatar();
+			} 
+
+
 
 			_avatar = new UIImageView {
 				Frame = new RectangleF(leftBound, 30, 64, 64)
 			};
-			
+			_avatar.Image = clippedImage;
 
 
 

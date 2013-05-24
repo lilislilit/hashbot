@@ -15,26 +15,34 @@ namespace Hashbot.Logic
 			_documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 		}
 
-		public void	GetAvatarByUri(string uri, string userId)
+		public string GetAvatarByUri(string uri, string userId)
 		{
 
-			using (var webClient = new WebClient())
+			var localFilename = userId + ".png";
+			var localPath = Path.Combine(_documentsPath, localFilename);
+
+			if (!File.Exists(localPath))
 			{
-				webClient.DownloadDataAsync(new Uri(uri));
-				webClient.DownloadDataCompleted += (sender, e) => {
-					if (e.Error == null)
-					{
-						var bytes = e.Result;
-						var localFilename = userId + ".png";
-						var localPath = Path.Combine(_documentsPath, localFilename);
-						if (!File.Exists(localPath))
+				using (var webClient = new WebClient())
+				{
+					webClient.DownloadDataAsync(new Uri(uri));
+					webClient.DownloadDataCompleted += (sender, e) => {
+						if (e.Error == null)
+						{
+							var bytes = e.Result;
+
+
 							File.WriteAllBytes(localPath, bytes);
 					
-						ImageDownloaded(localPath, uri);
-					}
+							ImageDownloaded(localPath, uri);
+						}
 
-				};
-
+					};
+					return String.Empty;
+				}
+			} else
+			{
+				return localPath;
 			}
 			 
 		}

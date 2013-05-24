@@ -62,8 +62,9 @@ namespace Hashbot.IPhone
 
 			View.BackgroundColor = UIColor.White;
 			_logo = new UIImageView(UIImage.FromFile("ios/Info/logo.png"));
-			_logo.Frame = _logo.Frame.CenterHorizontIn(View.Bounds,20);
 
+			_logo.Frame = _logo.Frame.CenterHorizontIn(View.Bounds,20);
+			_logo.AutoresizingMask = UIViewAutoresizing.FlexibleBottomMargin;
 			Add(_logo);
 
 
@@ -119,6 +120,7 @@ namespace Hashbot.IPhone
 			_mailButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;;
 			Add(_mailButton);	
 
+			_logo.Frame.Height = View.Bounds.Height - _infoTextScrollView.Frame.Height - _phoneButton.Bounds.Height;
 			InitMailController();		
 		}
 
