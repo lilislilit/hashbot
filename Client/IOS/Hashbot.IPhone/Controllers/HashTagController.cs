@@ -26,6 +26,7 @@ namespace Hashbot.IPhone
 		private UIAlertView _loadingAlert;
 		private UIView _buttonSubView;
 		private InfoController _info;
+		private UIAlertView _errorAlert;
 
 		private InfoController Info
 		{
@@ -145,7 +146,8 @@ namespace Hashbot.IPhone
 			{
 				InvokeOnMainThread(()=> {
 					_loadingAlert.DismissWithClickedButtonIndex(0,false);
-					new UIAlertView(TextBundle.Errors.Error, String.Format("{0}: {1}",TextBundle.Errors.TwitterConnError,error.Message), null, TextBundle.AlertButton).Show();
+					_errorAlert= new UIAlertView(TextBundle.Errors.Error, String.Format("{0}: {1}",TextBundle.Errors.TwitterConnError,error.Message), null, TextBundle.AlertButton);
+					_errorAlert.Show();
 				});
 			} else
 			{
@@ -158,11 +160,11 @@ namespace Hashbot.IPhone
 					_source.AddTweets(tweets);
 				}
 
-				InvokeOnMainThread(UIUpdate);
+				InvokeOnMainThread(ReloadData);
 			}
 		}
 
-		private void UIUpdate()
+		private void ReloadData()
 		{
 			_table.Source = _source;
 			_table.ReloadData();

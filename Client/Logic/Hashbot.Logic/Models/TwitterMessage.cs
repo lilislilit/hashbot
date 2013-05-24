@@ -1,10 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hashbot.Logic
 {
 	public class TwitterMessage
 	{
+
+		public TwitterMessage(TwitterResult rawTweet)
+		{
+			var url = rawTweet.Entities.Urls.Count != 0 ? rawTweet.Entities.Urls.First().DisplayUrl : "";
+			MessageId = rawTweet.Id.ToString();
+			Text = rawTweet.Text;
+			Url = url;
+			CreatedAt = DateTime.Parse(rawTweet.CreatedAt); 
+			Source = rawTweet.Source;
+			UserName = rawTweet.FromUser;
+		}
+
 		private string _source;
 
 		public string Text { get; set; }
@@ -26,17 +39,13 @@ namespace Hashbot.Logic
 
 		public string Url { get; set; }
 
-		public User TwitterUser { get; set; }
-
 		public string MessageId { get; set; }
+
+		public string UserName { get; set; }
+
+		public string AvatarUri { get; set; }
 	}
 
-	public class User
-	{
-		public string Name { get; set; }
-
-		public string ImageUri { get; set; }
-	}
 
 	public class TwitterResponse
 	{

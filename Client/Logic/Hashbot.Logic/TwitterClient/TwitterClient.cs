@@ -40,8 +40,10 @@ namespace Hashbot.Logic
 			if (response.ErrorException != null || response.ErrorMessage != null)
 			{
 				MessagesLoaded(response.ErrorException ?? new Exception(response.ErrorMessage), null);
-			} else {
-				if (response.Data.Results.Count == 0) {
+			} else
+			{
+				if (response.Data.Results.Count == 0)
+				{
 					MessagesLoaded(new Exception("Больше не могу"), null);
 
 					return;
@@ -66,26 +68,16 @@ namespace Hashbot.Logic
 			{
 				var bytes = webClient.DownloadData(rawTweet.ProfileImageUrl);
 				var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-				var localFilename = rawTweet.Id + ".png";
+				var localFilename = rawTweet.FromUser + ".png";
 				var localPath = Path.Combine(documentsPath, localFilename);
-
-				File.WriteAllBytes(localPath, bytes);
-			
-				var url = rawTweet.Entities.Urls.Count != 0 ? rawTweet.Entities.Urls.First().DisplayUrl : "";
-
-				var message = new TwitterMessage {
-					MessageId = rawTweet.Id.ToString(),
-					Text = rawTweet.Text,
-					Url = url,
-					CreatedAt = DateTime.Parse(rawTweet.CreatedAt), 
-					Source = rawTweet.Source,
-					TwitterUser = new User {
-						Name = rawTweet.FromUser,
-						ImageUri = localPath
-					}
+				if(!File.Exists(localPath))
+					File.WriteAllBytes(localPath, bytes);
+		
+				return  new TwitterMessage(rawTweet) {
+					AvatarUri = localPath
 				};
 
-				return message;
+
 			}
 		}
 	}

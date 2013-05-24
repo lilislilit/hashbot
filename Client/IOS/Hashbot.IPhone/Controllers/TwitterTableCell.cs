@@ -37,20 +37,20 @@ namespace Hashbot.IPhone
 
 			_userLabel = new UILabel() {
 				Font = UIFont.FromName(Fonts.HelveticaBold, 16),
-				TextColor = UIColor.FromRGB (0, 0, 0),
+				TextColor = UIColor.Black,
 				BackgroundColor = UIColor.Clear
 			};
 
 			_tweetLabel = new UILabel() {
 				Font = UIFont.FromName(Fonts.Helvetica, 14),
-				TextColor = UIColor.FromRGB (137, 137, 137),
+				TextColor = Colors.TweetTextGray,
 				TextAlignment = UITextAlignment.Left,
 				BackgroundColor = UIColor.Clear
 			};
 
 			_dateLabel = new UILabel() {
 				Font = UIFont.FromName(Fonts.Helvetica, 14),
-				TextColor = UIColor.FromRGB (137, 137, 137),
+				TextColor = Colors.TweetTextGray,
 				TextAlignment = UITextAlignment.Right,
 				BackgroundColor = UIColor.Clear
 			};
@@ -84,13 +84,13 @@ namespace Hashbot.IPhone
 
 		public void InitWith(TwitterMessage twitt)
 		{
-			var preclippedAvatar = UIImage.FromFile(twitt.TwitterUser.ImageUri);
+			var preclippedAvatar = UIImage.FromFile(twitt.AvatarUri);
 			var rowDate = twitt.CreatedAt;
 			var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
 			var timeDifference = DateTime.Now - rowDate;
 			var dateLabel = PrepareDate(timeDifference, rowDate);
 
-			UpdateCell(twitt.TwitterUser.Name, twitt.Text, clippedImage, dateLabel);
+			UpdateCell(twitt.UserName, twitt.Text, clippedImage, dateLabel);
 		}
 
 		private string PrepareDate(TimeSpan date, DateTime origDate)

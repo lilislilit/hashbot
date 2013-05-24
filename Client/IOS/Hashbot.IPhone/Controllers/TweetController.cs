@@ -98,7 +98,7 @@ namespace Hashbot.IPhone
 			View.AddSubview(_imageView);
 
 			View.SendSubviewToBack(_imageView);
-			var tempAvatar = UIImage.FromFile(_tweet.TwitterUser.ImageUri);
+			var tempAvatar = UIImage.FromFile(_tweet.AvatarUri);
 			var maskedAvatar = tempAvatar.GetMaskedAvatar(UIImage.FromFile("ios/Main/mask_avatar.png"));
 			_avatar = new UIImageView(maskedAvatar) {
 				Frame = new RectangleF(leftBound, 30, 64, 64)
@@ -112,7 +112,7 @@ namespace Hashbot.IPhone
 
 			_userLabel = new UILabel(new RectangleF(avatarMargin,50, View.Bounds.Width, 25)) {
 				BackgroundColor = UIColor.Clear,
-				Text = _tweet.TwitterUser.Name,
+				Text = _tweet.UserName,
 				Font = userFont,
 				TextColor = Colors.DeepBlue,
 			};

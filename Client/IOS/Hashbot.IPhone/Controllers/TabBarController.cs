@@ -7,8 +7,15 @@ namespace Hashbot.IPhone
 	public class TabBarController :UITabBarController
 	{
 		
-		HashTagController _twitterTab, _appleTab, _dribbleTab, _gitHubTab;
-		UINavigationController _twitterNavController,_appleNavController,_dribbleNavController, _githubNavController; 
+		private HashTagController _twitterTab;
+		private HashTagController _appleTab;
+		private HashTagController _dribbleTab;
+		private HashTagController _gitHubTab;
+
+		private UINavigationController _twitterNavController;
+		private UINavigationController _appleNavController;
+		private UINavigationController _dribbleNavController;
+		private UINavigationController _githubNavController; 
 
 		public TabBarController()
 		{

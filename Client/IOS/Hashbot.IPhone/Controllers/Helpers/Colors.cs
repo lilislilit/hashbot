@@ -10,6 +10,7 @@ namespace Hashbot.IPhone
 		public static UIColor LightGray = UIColor.FromRGB(119, 119, 119);
 		public static UIColor ButtonBorderGray = UIColor.FromRGB(186, 188, 187);
 		public static UIColor ButtonGray = UIColor.FromRGB(247, 247, 247);
+		public static UIColor TweetTextGray = UIColor.FromRGB(137, 137, 137);
 	}
 }
 
