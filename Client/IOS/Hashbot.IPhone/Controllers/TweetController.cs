@@ -114,14 +114,14 @@ namespace Hashbot.IPhone
 				BackgroundColor = UIColor.Clear,
 				Text = _tweet.TwitterUser.Name,
 				Font = userFont,
-				TextColor = UIColor.FromRGB(42, 66, 114)
+				TextColor = Colors.DeepBlue,
 			};
 			Add(_userLabel);
 
 			var sourceFont = UIFont.FromName(Fonts.HelveticaBold, 15);
 			_sourceLabel = new UILabel(new RectangleF(avatarMargin,_userLabel.Frame.Bottom, View.Bounds.Width-_avatar.Frame.Width-40, 25)) {	BackgroundColor = UIColor.Clear,
 				Font = sourceFont,
-				TextColor = UIColor.FromRGB(65, 65, 65),
+				TextColor = Colors.LightBlack,
 				Text = _tweet.Source
 			};
 			Add(_sourceLabel);
@@ -131,7 +131,7 @@ namespace Hashbot.IPhone
 				BackgroundColor = UIColor.Clear,
 				Text = _tweet.Text,
 				Font = _tweetFont,
-				TextColor = UIColor.FromRGB(65, 65, 65),
+				TextColor = Colors.LightBlack,
 				LineBreakMode = UILineBreakMode.WordWrap,
 				Lines = 0
 			};
@@ -149,7 +149,7 @@ namespace Hashbot.IPhone
 				Text = _tweet.CreatedAt.ToString("dd.MM.yyyy"),
 				Font = _dateFont,
 				BackgroundColor = UIColor.Clear,
-				TextColor = UIColor.FromRGB(119, 119, 119)
+				TextColor = Colors.LightGray
 			};
 			_dateLabel.SizeToFit();
 			Add(_dateLabel);
@@ -160,7 +160,7 @@ namespace Hashbot.IPhone
 				Text = _tweet.Url,
 				Font = _urlFont,
 				BackgroundColor = UIColor.Clear,
-				TextColor = UIColor.FromRGB(119, 119, 119)
+				TextColor = Colors.LightGray
 			};
 			_urlLabel.SizeToFit();
 			Add(_urlLabel);

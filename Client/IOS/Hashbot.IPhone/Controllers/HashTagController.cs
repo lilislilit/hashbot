@@ -25,14 +25,16 @@ namespace Hashbot.IPhone
 		private TweetController _tweetController;
 		private UIAlertView _loadingAlert;
 		private UIView _buttonSubView;
-
 		private InfoController _info;
+
 		private InfoController Info
 		{
-			get {
+			get
+			{
 				return _info ?? (_info = new InfoController());
 			}
 		}
+
 		public HashTagController() : base()
 		{
 			_twitter = new TwitterClient();
@@ -73,8 +75,6 @@ namespace Hashbot.IPhone
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-
-
 		void InitPreloader()
 		{
 			_loadingAlert = new UIAlertView(new RectangleF(10, 20, 290, 100));
@@ -100,35 +100,35 @@ namespace Hashbot.IPhone
 			_loadingAlert.Show();
 		}
 
-
 		void LoadTable()
 		{
-			_table = new UITableView(new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height));
-			_table.SeparatorStyle = UITableViewCellSeparatorStyle.None;
+			_table = new UITableView(new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height)) {
+				SeparatorStyle = UITableViewCellSeparatorStyle.None
+			};
 
-			_buttonSubView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50));
-			_buttonSubView.BackgroundColor = UIColor.Clear;
+			_buttonSubView = new UIView(new RectangleF(0, 0, _table.Bounds.Width, 50)) {
+				BackgroundColor = UIColor.Clear
+			};
 			_table.TableFooterView = _buttonSubView;
 
 		
-			_moreButton = new UIButton(UIButtonType.Custom);
-			_moreButton.TintColor = UIColor.FromRGB(247, 247, 247);
+			_moreButton = new UIButton(UIButtonType.Custom) {
+				TintColor = Colors.ButtonGray,
+				Frame = new RectangleF(10, (_buttonSubView.Frame.Height - 40) / 2, 300, 40),
+				BackgroundColor = Colors.ButtonGray,
+				AutoresizingMask = UIViewAutoresizing.FlexibleMargins,
 
-			_moreButton.Frame = new RectangleF(10, (_buttonSubView.Frame.Height - 40) / 2, 300, 40);
-			_moreButton.BackgroundColor = UIColor.FromRGB(247, 247, 247);
+			};
+			_moreButton.SetTitleColor(UIColor.Black,UIControlState.Normal);
+			_moreButton.TouchUpInside += HandleTouchMoreButton;
 			_moreButton.Layer.CornerRadius = 10;
 			_moreButton.Layer.BorderWidth = 2;
-			_moreButton.Layer.BorderColor = UIColor.FromRGB(186, 188, 187).CGColor;
-
-			_moreButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
-			_moreButton.SetTitleColor(UIColor.FromRGB(0, 0, 0), UIControlState.Normal);
-			_moreButton.TouchUpInside += HandleTouchMoreButton;
+			_moreButton.Layer.BorderColor = Colors.ButtonBorderGray.CGColor;
 			_moreButton.SetTitle(TextBundle.LoadMore, UIControlState.Normal);
 
 			Add(_table);
 			_buttonSubView.Add(_moreButton);
 		}
-
 
 		public override void ViewWillLayoutSubviews()
 		{
@@ -139,7 +139,6 @@ namespace Hashbot.IPhone
 			_moreButton.Frame.Width = _buttonSubView.Frame.Width - 50;
 		}
 
-
 		void HandleMessagesLoaded(Exception error, TwitterMessage[] tweets)
 		{
 			if (error != null)
@@ -148,19 +147,20 @@ namespace Hashbot.IPhone
 					_loadingAlert.DismissWithClickedButtonIndex(0,false);
 					new UIAlertView(TextBundle.Errors.Error, String.Format("{0}: {1}",TextBundle.Errors.TwitterConnError,error.Message), null, TextBundle.AlertButton).Show();
 				});
-			} else {
+			} else
+			{
 				if (_source == null)
 				{
 					_source = new TwitterSource(tweets);
 					_source.RowSelectedEvent += HandleRowSelectedEvent;
-				} else {
+				} else
+				{
 					_source.AddTweets(tweets);
 				}
 
 				InvokeOnMainThread(UIUpdate);
 			}
 		}
-
 
 		private void UIUpdate()
 		{
@@ -169,14 +169,12 @@ namespace Hashbot.IPhone
 			_loadingAlert.DismissWithClickedButtonIndex(0, true);
 		}
 
-
 		void HandleRowSelectedEvent(TwitterMessage tweet)
 		{
 			_tweetController = new TweetController(tweet);
 
 			NavigationController.PushViewController(_tweetController, true);
 		}
-
 
 		private void HandleTouchMoreButton(object sender, EventArgs e)
 		{
@@ -185,7 +183,6 @@ namespace Hashbot.IPhone
 			_loadingAlert.Show();
 			_twitter.MessagesByTag(HashTag, _page);
 		}
-
 
 		private void HandleRightBarButton(object sender, EventArgs args)
 		{
