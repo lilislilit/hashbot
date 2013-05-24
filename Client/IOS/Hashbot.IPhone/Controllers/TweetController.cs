@@ -15,7 +15,7 @@ namespace Hashbot.IPhone
 		private UILabel _tweetLabel;
 		private UILabel _userLabel;
 		private UILabel _sourceLabel;
-		private UILabel _urlLabel;
+		private UIButton _urlLabel;
 		private UIImageView _line;
 		private UIImageView _avatar;
 		private UIImageView _imageView;
@@ -27,12 +27,15 @@ namespace Hashbot.IPhone
 		private UIFont _dateFont;
 		private AvatarLoader _avatarLoader;
 
+		private string _statusUrl;
+
 		private const int leftBound = 20;
 
 		public TweetController(TwitterMessage tweet) : base ()
 		{
 			_tweet = tweet;
 			_tweet.Url = "ссылка на твит";
+			_statusUrl = "https://twitter.com/" + _tweet.UserName + "/status/" + _tweet.MessageId;
 
 		}
 
@@ -187,14 +190,23 @@ namespace Hashbot.IPhone
 
 	
 			var urlStartPosition = _line.Frame.Right - _urlSize.Width;
-			_urlLabel = new UILabel(new RectangleF(urlStartPosition, _line.Frame.Bottom + 2,_urlSize.Width, 25)) {
-				Text = _tweet.Url,
+			_urlLabel = new UIButton(UIButtonType.Custom) {
 				Font = _urlFont,
 				BackgroundColor = UIColor.Clear,
-				TextColor = Colors.LightGray
+				Frame =new RectangleF(urlStartPosition, _line.Frame.Bottom + 2,_urlSize.Width, 25) 
+			   
 			};
+			_urlLabel.SetTitle(_tweet.Url,UIControlState.Normal);
+			_urlLabel.SetTitleColor(Colors.LightGray,UIControlState.Normal);
 			_urlLabel.SizeToFit();
+			_urlLabel.TouchUpInside+= HandleTouchUrl;
+
 			Add(_urlLabel);
+		}
+
+		void HandleTouchUrl (object sender, EventArgs e)
+		{
+			UIApplication.SharedApplication.OpenUrl(NSUrl.FromString(_statusUrl));
 		}
 	}
 }

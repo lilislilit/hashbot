@@ -25,6 +25,7 @@ namespace Hashbot.IPhone
 		private UIScrollView _infoTextScrollView;
 
 		private RectangleF _portaitInfoRect;
+		private RectangleF _portaitLabelRect;
 
 		public InfoController() : base()
 		{
@@ -62,17 +63,14 @@ namespace Hashbot.IPhone
 
 			View.BackgroundColor = UIColor.White;
 			_logo = new UIImageView(UIImage.FromFile("ios/Info/logo.png"));
-
-			_logo.Frame = _logo.Frame.CenterHorizontIn(View.Bounds,20);
-			_logo.AutoresizingMask = UIViewAutoresizing.FlexibleBottomMargin;
+			_logo.Frame = _logo.Frame.CenterHorizontIn(View.Bounds,10);
+			_logo.Frame = new RectangleF(_logo.Frame.X, _logo.Frame.Y,_logo.Frame.Width, View.Bounds.Height/4);
+			_portaitLabelRect = _logo.Frame;
 			Add(_logo);
 
 
-			_portaitInfoRect = new RectangleF();
-			_portaitInfoRect.X = 20;
-			_portaitInfoRect.Y = (_logo.Frame.Bottom/2)-20;
-			_portaitInfoRect.Height = View.Frame.Height - _logo.Frame.Height;
-			_portaitInfoRect.Width = View.Frame.Width-20;
+			_portaitInfoRect = new RectangleF(20, (_logo.Frame.Bottom / 2) - 20, View.Frame.Width - 20, View.Frame.Height - _logo.Frame.Height);
+
 			_infoTextScrollView = new UIScrollView(_portaitInfoRect);
 		
 			var labelRect = _portaitInfoRect;
@@ -120,7 +118,8 @@ namespace Hashbot.IPhone
 			_mailButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;;
 			Add(_mailButton);	
 
-			_logo.Frame.Height = View.Bounds.Height - _infoTextScrollView.Frame.Height - _phoneButton.Bounds.Height;
+
+
 			InitMailController();		
 		}
 
@@ -133,6 +132,12 @@ namespace Hashbot.IPhone
 			frame.Y = 0;
 			frame.Height = View.Bounds.Height - 80;
 			_infoTextScrollView.Frame = frame;
+			var logoFrame = _logo.Frame;
+			logoFrame.Height = View.Bounds.Height - _phoneButton.Bounds.Height - 80;
+			logoFrame.X =40;
+			_logo.Frame = logoFrame;
+
+
 		}
 
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
@@ -148,6 +153,7 @@ namespace Hashbot.IPhone
 				rect.X = 0;
 				rect.Y = 0;
 				_infoTextLabel.Frame = rect;
+				_logo.Frame = _portaitLabelRect;
 			}
 
 		}

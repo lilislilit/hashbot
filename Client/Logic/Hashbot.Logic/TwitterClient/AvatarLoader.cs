@@ -8,7 +8,8 @@ namespace Hashbot.Logic
 	{
 		private string _documentsPath;
 		public Action<string,string> ImageDownloaded;
-		public Action<string> ImageLoadingFailed;
+
+
 
 		public AvatarLoader()
 		{
@@ -38,6 +39,7 @@ namespace Hashbot.Logic
 						}
 
 					};
+
 					return String.Empty;
 				}
 			} else

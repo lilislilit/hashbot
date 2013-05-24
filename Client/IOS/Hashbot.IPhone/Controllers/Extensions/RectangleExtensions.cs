@@ -7,7 +7,7 @@ namespace Hashbot.IPhone
 	{
 		public static RectangleF CenterHorizontIn(this RectangleF rectangle, RectangleF outerRectangle,int topMargin=0)
 		{
-			return new RectangleF((outerRectangle.Width-rectangle.Width)/2,rectangle.Y+topMargin,rectangle.Width, rectangle.Height);
+			return new RectangleF((outerRectangle.Width-rectangle.Width)/2,topMargin,rectangle.Width, rectangle.Height);
 
 		}
 
