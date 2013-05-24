@@ -25,13 +25,14 @@ namespace Hashbot.IPhone
 		private UIFont _urlFont;
 		private SizeF _dateStringSize;
 		private UIFont _dateFont;
+		private AvatarLoader _avatarLoader;
 
 		private const int leftBound = 20;
 
 		public TweetController(TwitterMessage tweet) : base ()
 		{
-
 			_tweet = tweet;
+
 		}
 
 		void InitSizes()
@@ -90,6 +91,20 @@ namespace Hashbot.IPhone
 			_urlLabel.SizeToFit();
 		}
 
+		private void ImageLoadedHandler(string uri, string origUri)
+		{
+			if (uri == origUri)
+			{
+				var tempAvatar = UIImage.FromFile(uri);
+				var maskedAvatar = tempAvatar.GetMaskedAvatar(UIImage.FromFile("ios/Main/mask_avatar.png"));
+
+				InvokeOnMainThread(()=> {
+				_avatar.Image = maskedAvatar;
+				});
+			}
+
+		}
+
 		void InitLayout()
 		{
 			_imageView = new UIImageView(UIImage.FromFile("ios/Tweets/bg.png"));
@@ -98,11 +113,19 @@ namespace Hashbot.IPhone
 			View.AddSubview(_imageView);
 
 			View.SendSubviewToBack(_imageView);
-			var tempAvatar = UIImage.FromFile(_tweet.AvatarUri);
-			var maskedAvatar = tempAvatar.GetMaskedAvatar(UIImage.FromFile("ios/Main/mask_avatar.png"));
-			_avatar = new UIImageView(maskedAvatar) {
+
+			_avatarLoader = _avatarLoader ?? new AvatarLoader();
+			_avatarLoader.GetAvatarByUri(_tweet.AvatarUri, _tweet.UserId);
+			_avatarLoader.ImageDownloaded += ImageLoadedHandler;
+
+
+			_avatar = new UIImageView {
 				Frame = new RectangleF(leftBound, 30, 64, 64)
 			};
+			
+
+
+
 			Add(_avatar);
 
 

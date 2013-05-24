@@ -16,9 +16,13 @@ namespace Hashbot.Logic
 			CreatedAt = DateTime.Parse(rawTweet.CreatedAt); 
 			Source = rawTweet.Source;
 			UserName = rawTweet.FromUser;
+			AvatarUri = rawTweet.ProfileImageUrl;
+			UserId = rawTweet.FromUserId.ToString();
 		}
 
 		private string _source;
+
+		public string UserId { get; set; }
 
 		public string Text { get; set; }
 

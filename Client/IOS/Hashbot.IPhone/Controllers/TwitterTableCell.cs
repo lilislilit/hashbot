@@ -10,12 +10,14 @@ namespace Hashbot.IPhone
 	public class TwitterTableCell : UITableViewCell
 	{
 		public const string CellId = "TwitterTableCell";
-
 		private UILabel _userLabel, _tweetLabel, _dateLabel;
 		private UIImageView _imageView;
 		private UIImageView _backImageView;
 		private UIImageView _backPressedImageView;
 		private UIImage _clippingImage;
+		private AvatarLoader _avatarLoader;
+		private UIAlertView _errorAlert;
+		private string _imgUri;
 
 		public TwitterTableCell() : base (UITableViewCellStyle.Default, CellId)
 		{
@@ -71,6 +73,11 @@ namespace Hashbot.IPhone
 			_dateLabel.Text = Date;
 		}
 
+		public void UpdateImage(UIImage image)
+		{
+			_imageView.Image = image;
+		}
+
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
@@ -84,27 +91,50 @@ namespace Hashbot.IPhone
 
 		public void InitWith(TwitterMessage twitt)
 		{
-			var preclippedAvatar = UIImage.FromFile(twitt.AvatarUri);
+			_avatarLoader = _avatarLoader ?? new AvatarLoader();
+			_avatarLoader.GetAvatarByUri(twitt.AvatarUri, twitt.UserId);
+			_avatarLoader.ImageDownloaded += ImageLoadedHandler;
+			_imgUri = twitt.AvatarUri;
 			var rowDate = twitt.CreatedAt;
-			var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
 			var timeDifference = DateTime.Now - rowDate;
 			var dateLabel = PrepareDate(timeDifference, rowDate);
 
-			UpdateCell(twitt.UserName, twitt.Text, clippedImage, dateLabel);
+			UpdateCell(twitt.UserName, twitt.Text, new UIImage(), dateLabel);
+
+
+		}
+
+		private void ImageLoadedHandler(string uri, string origUri)
+		{
+			if (_imgUri == origUri)
+			{
+				var preclippedAvatar = UIImage.FromFile(uri);
+				var clippedImage = preclippedAvatar.GetMaskedAvatar(_clippingImage);
+
+				InvokeOnMainThread(()=> {
+				UpdateImage(clippedImage);
+				});
+			}
+
 		}
 
 		private string PrepareDate(TimeSpan date, DateTime origDate)
 		{
 
-			if (date.TotalSeconds < 1) {
+			if (date.TotalSeconds < 1)
+			{
 				return "сейчас";	
-			} else if (date.TotalMinutes < 1) {
+			} else if (date.TotalMinutes < 1)
+			{
 				return date.Seconds + " c.";
-			} else if (date.TotalHours < 1) {
+			} else if (date.TotalHours < 1)
+			{
 				return date.Minutes + " м.";						
-			} else if (date.TotalDays < 1) {
+			} else if (date.TotalDays < 1)
+			{
 				return date.Hours + " ч.";
-			} else {
+			} else
+			{
 				return origDate.ToString("dd.MM.yyyy");
 			}
 		}

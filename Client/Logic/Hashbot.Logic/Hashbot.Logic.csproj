@@ -46,5 +46,6 @@
   <ItemGroup>
     <Compile Include="Models\TwitterMessage.cs" />
     <Compile Include="TwitterClient\TwitterClient.cs" />
+    <Compile Include="TwitterClient\AvatarLoader.cs" />
   </ItemGroup>
 </Project>

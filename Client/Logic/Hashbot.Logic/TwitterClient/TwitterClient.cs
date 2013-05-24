@@ -28,7 +28,7 @@ namespace Hashbot.Logic
 			request.RootElement = "TwitterResponse";
 			request.AddParameter("q", hashtag);
 			request.AddParameter("include_entities", "true");
-			request.AddParameter("rpp", "5");
+			request.AddParameter("rpp", 15);
 			request.AddParameter("page", page);
 			request.AddParameter("max_id", _lastId);
 
@@ -53,7 +53,7 @@ namespace Hashbot.Logic
 
 				foreach (var tweet in response.Data.Results)
 				{
-					finalResults.Add(ParseItem(tweet));
+					finalResults.Add(new TwitterMessage(tweet));
 				}
 
 				_lastId = finalResults.Last().MessageId;
@@ -61,25 +61,5 @@ namespace Hashbot.Logic
 				MessagesLoaded(null, finalResults.ToArray());
 			}
 		}
-
-		private TwitterMessage ParseItem(TwitterResult rawTweet)
-		{
-			using (var webClient = new WebClient())
-			{
-				var bytes = webClient.DownloadData(rawTweet.ProfileImageUrl);
-				var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-				var localFilename = rawTweet.FromUser + ".png";
-				var localPath = Path.Combine(documentsPath, localFilename);
-				if(!File.Exists(localPath))
-					File.WriteAllBytes(localPath, bytes);
-		
-				return  new TwitterMessage(rawTweet) {
-					AvatarUri = localPath
-				};
-
-
-			}
-		}
 	}
 }
-
